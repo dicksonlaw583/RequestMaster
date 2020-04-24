@@ -12,9 +12,9 @@ nextTest = method(self, function() {
 
 // Set defaults here
 url = "http://localhost/echo_request.php";
-xhr_set_default_subject(function() { return xhr_subject_self(); });
-xhr_set_default_decoder(function(d) { return xhr_decoder_json(d); });
-xhr_set_default_encoder(function(d) { return xhr_encoder_xwfu(d); });
+xhr_set_default_subject(xhr_subject_self);
+xhr_set_default_decoder(function(d) { return jsons_decode(d); });
+xhr_set_default_encoder(function(s) { return new XwfuBody(s); });
 
 // Define tests here
 tests = [
@@ -22,14 +22,14 @@ tests = [
 	function() {
 		xhr_get(url, {
 			params: { a: "foo", b: "bar" },
-			done: method(self, function(res) {
+			done: function(res) {
 				assert_equal(res.data, {
 					GET: { a: "foo", b: "bar" },
 					POST: [],
 					FILES: []
 				}, "Request Master XHR basic GET request failed");
 				nextTest();
-			}),
+			},
 			fail: failCallback
 		});
 	},
@@ -37,14 +37,14 @@ tests = [
 	function() {
 		xhr_post(url, { c: "baz", d: "qux" }, {
 			params: { a: "foo", b: "bar" },
-			done: method(self, function(res) {
+			done: function(res) {
 				assert_equal(res.data, {
 					GET: { a: "foo", b: "bar" },
 					POST: { c: "baz", d: "qux" },
 					FILES: []
 				}, "Request Master XHR basic POST request failed");
 				nextTest();
-			}),
+			},
 			fail: failCallback
 		});
 	},
@@ -55,7 +55,7 @@ tests = [
 			qux: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!")
 		}), {
 			params: { foo: "bar" },
-			done: method(self, function(res) {
+			done: function(res) {
 				assert_equal(res.data, {
 					GET: { foo: "bar" },
 					POST: { baz: "BAZ" },
@@ -70,7 +70,7 @@ tests = [
 					}
 				}, "Request Master XHR file POST request failed");
 				nextTest();
-			}),
+			},
 			fail: failCallback
 		});
 	},
@@ -82,7 +82,7 @@ tests = [
 		}, {
 			params: { foo: "bar" },
 			encoder: function(strc) { return new MultipartBody(strc); },
-			done: method(self, function(res) {
+			done: function(res) {
 				assert_equal(res.data, {
 					GET: { foo: "bar" },
 					POST: { baz: "BAZ" },
@@ -97,7 +97,7 @@ tests = [
 					}
 				}, "Request Master XHR file POST request (ALT) failed");
 				nextTest();
-			}),
+			},
 			fail: failCallback
 		});
 	},
@@ -108,10 +108,10 @@ tests = [
 		}, {
 			headers: [["Accept", "application/json"], ["Accept-Charset", "utf-8"]],
 			decoder: function(v) { return v; },
-			done: method(self, function(res) {
+			done: function(res) {
 				assert_equal(res.data, @'{"GET":[],"POST":{"bar":"baz"},"FILES":[]}', "Request Master XHR file POST request with headers and changed decoder failed");
 				nextTest();
-			}),
+			},
 			fail: failCallback
 		});
 	},

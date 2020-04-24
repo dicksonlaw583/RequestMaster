@@ -3,29 +3,7 @@
 ///@param decoder Function that accepts a string response from the server and returns a decoded result if successful, throw something if not
 {
 	var decoder = argument0;
-	global.__reqm_default_decoder__ = is_undefined(decoder) ? xhr_decoder_none : decoder;
-}
-
-#define xhr_decoder_none
-{
-	var d = argument0;
-	return d;
-}
-
-#define xhr_decoder_json
-{
-	var d = argument0;
-	return jsons_decode(d);
-}
-
-#define xhr_decoder_json_map
-{
-	var d = argument0;
-	var result = json_decode(d);
-	if (result < 0) {
-		throw "JSON decode failed";
-	}
-	return result;
+	global.__reqm_default_decoder__ = decoder;
 }
 
 #define xhr_set_default_encoder
@@ -33,25 +11,7 @@
 ///@param body_type function that takes a raw body content and returns a formatted body object
 {
 	var body_type = argument0;
-	global.__reqm_default_encoder__ = is_undefined(body_type) ? xhr_encoder_xwfu : body_type;
-}
-
-#define xhr_encoder_json
-{
-	var s = argument0;
-	return new JsonBody(s);
-}
-
-#define xhr_encoder_xwfu
-{
-	var s = argument0;
-	return new XwfuBody(s);
-}
-
-#define xhr_encoder_multipart
-{
-	var s = argument0;
-	return new MultipartBody(s);
+	global.__reqm_default_encoder__ = body_type;
 }
 
 #define xhr_set_default_subject
@@ -59,18 +19,7 @@
 ///@param subject Instance ID, or xhr_subject_noone or xhr_subject_self, or function returning an instance ID and/or noone
 {
 	var subject = argument0;
-	global.__reqm_default_subject__ = is_undefined(subject) ? noone : subject;
-}
-
-#define xhr_subject_self
-{
-	try {
-		var result = id;
-		if (id > 0) {
-			return result;
-		}
-	} catch (ex) {}
-	return noone;
+	global.__reqm_default_subject__ = subject;
 }
 
 #define xhr_delete
@@ -177,13 +126,7 @@
 		var paramKey = paramKeys[i];
 		var paramVal = variable_struct_get(options, paramKey);
 		switch (paramKey) {
-			case "decoder":
-				if (is_undefined(paramVal)) {
-					daemon.decoder = xhr_decoder_none;
-				} else {
-					daemon.decoder = paramVal;
-				}
-				break;
+			case "decoder": daemon.decoder = paramVal; break;
 			case "done": daemon.doneCallback = paramVal; break;
 			case "encoder": encoder = paramVal; break;
 			case "fail": daemon.failCallback = paramVal; break;
@@ -208,6 +151,14 @@
 	}
 	if (!overriddenSubject) {
 		daemon.subject = is_method(global.__reqm_default_subject__) ? global.__reqm_default_subject__() : global.__reqm_default_subject__;
+	}
+	switch (daemon.subject) {
+		case noone: break;
+		case -1: daemon.subject = id;
+		default:
+			daemon.doneCallback = method(daemon.subject, daemon.doneCallback);
+			daemon.failCallback = method(daemon.subject, daemon.failCallback);
+			daemon.progressCallback = method(daemon.subject, daemon.progressCallback);
 	}
 
 	// Extract body
