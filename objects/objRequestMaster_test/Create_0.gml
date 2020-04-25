@@ -104,7 +104,7 @@ tests = [
 			bar: "baz"
 		}, {
 			headers: [["Accept", "application/json"], ["Accept-Charset", "utf-8"]],
-			decoder: function(v) { return v; },
+			decoder: undefined,
 			done: function(res) {
 				assert_equal(res.data, @'{"GET":[],"POST":{"bar":"baz"},"FILES":[]}', "Request Master XHR file POST request with headers and changed decoder failed");
 				nextTest();
