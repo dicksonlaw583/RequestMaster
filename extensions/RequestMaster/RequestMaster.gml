@@ -1,27 +1,3 @@
-#define xhr_set_default_decoder
-///@func xhr_set_default_decoder(decoder)
-///@param decoder Function that accepts a string response from the server and returns a decoded result if successful, throw something if not
-{
-	var decoder = argument0;
-	global.__reqm_default_decoder__ = decoder;
-}
-
-#define xhr_set_default_encoder
-///@func xhr_set_default_encoder(body_type)
-///@param body_type function that takes a raw body content and returns a formatted body object
-{
-	var body_type = argument0;
-	global.__reqm_default_encoder__ = body_type;
-}
-
-#define xhr_set_default_subject
-///@func xhr_set_default_subject(subject)
-///@param subject Instance ID, or xhr_subject_noone or xhr_subject_self, or function returning an instance ID and/or noone
-{
-	var subject = argument0;
-	global.__reqm_default_subject__ = subject;
-}
-
 #define xhr_delete
 ///@func xhr_delete(url, body, options)
 ///@param url
@@ -114,14 +90,14 @@
 
 	// Create request daemon
 	var daemon = instance_create_depth(0, 0, 0, __obj_request_master_daemon__);
+	daemon.subject = REQM_DEFAULT_SUBJECT;
 
 	// Defaults
-	var encoder = global.__reqm_default_encoder__;
+	var encoder = function(s) { return new REQM_DEFAULT_ENCODER(s); };
 	verb = string_upper(verb);
 
 	// Get options
 	var paramKeys = variable_struct_get_names(options);
-	var overriddenSubject = false;
 	for (var i = array_length(paramKeys)-1; i >= 0; --i) {
 		var paramKey = paramKeys[i];
 		var paramVal = variable_struct_get(options, paramKey);
@@ -144,17 +120,18 @@
 				break;
 			case "progress": daemon.progressCallback = paramVal; break;
 			case "subject":
-				daemon.subject = is_method(paramVal) ? paramVal() : paramVal;
-				overriddenSubject = true;
+				daemon.subject = paramVal;
 				break;
 		}
 	}
-	if (!overriddenSubject) {
-		daemon.subject = is_method(global.__reqm_default_subject__) ? global.__reqm_default_subject__() : global.__reqm_default_subject__;
-	}
 	switch (daemon.subject) {
 		case noone: break;
-		case -1: daemon.subject = id;
+		case -1:
+			try {
+				daemon.subject = id;
+			} catch (ex) {
+				daemon.subject = noone;
+			}
 		default:
 			daemon.doneCallback = method(daemon.subject, daemon.doneCallback);
 			daemon.failCallback = method(daemon.subject, daemon.failCallback);
@@ -164,7 +141,11 @@
 	// Extract body
 	var bodyContent, bodyHelper;
 	if (is_struct(body)) {
-		bodyHelper = (instanceof(body) == "struct") ? encoder(body) : body;
+		if (instanceof(body) == "struct") {
+			bodyHelper = encoder(body);
+		} else {
+			bodyHelper = body;
+		}
 		bodyContent = bodyHelper.getBody();
 	} else {
 		bodyHelper = undefined;

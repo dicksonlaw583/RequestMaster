@@ -10,11 +10,8 @@ nextTest = method(self, function() {
 	tests[++testNumber]();
 });
 
-// Set defaults here
-url = "http://localhost/echo_request.php";
-xhr_set_default_subject(xhr_subject_self);
-xhr_set_default_decoder(function(d) { return jsons_decode(d); });
-xhr_set_default_encoder(function(s) { return new XwfuBody(s); });
+// Set the URL here
+event_user(14);
 
 // Define tests here
 tests = [
