@@ -6,11 +6,12 @@ function MultipartDataBuilder(_data) constructor {
 		var bodyBuffer = buffer_create(4096, buffer_grow, 1);
 		buffer_write(bodyBuffer, buffer_text, "--");
 		buffer_write(bodyBuffer, buffer_text, boundary);
-		var keys = variable_struct_get_names(data);
+		var isConflict = instanceof(data) == "JsonStruct";
+		var keys = isConflict ? data.keys() : variable_struct_get_names(data);
 		var nKeys = array_length(keys);
 		for (var i = 0; i < nKeys; ++i) {
 			var k = keys[i];
-			var v = variable_struct_get(data, k);
+			var v = isConflict ? data.get(k) : variable_struct_get(data, k);
 			switch (typeof(v)) {
 				case "string":
 					buffer_write(bodyBuffer, buffer_text, "\r\n");
