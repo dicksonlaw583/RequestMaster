@@ -1,7 +1,7 @@
 ///@desc Set up request URL
 
 // Default URL --- LEAVE THIS HERE!
-url = "http://localhost/echo_request.php";
+url = "https://request-master-test-target.herokuapp.com/echo_request.php";
 
 // Here you can set export-specific URLs to test. The echo_request.php is available as the included file.
 // Serve it from a PHP-enabled server, then 
