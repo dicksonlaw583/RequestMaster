@@ -19,7 +19,7 @@
     {"filename":"RequestMaster.gml","origname":"","init":"","final":"","kind":2,"uncompress":false,"functions":[
         {"externalName":"xhr_delete","kind":2,"help":"xhr_delete(url, body, options)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
-            1,
+            2,
             2,
           ],"resourceVersion":"1.0","name":"xhr_delete","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"xhr_get","kind":2,"help":"xhr_get(url, options)","hidden":false,"returnType":2,"argCount":0,"args":[
@@ -36,17 +36,17 @@
           ],"resourceVersion":"1.0","name":"xhr_options","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"xhr_patch","kind":2,"help":"xhr_patch(url, body, options)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
-            1,
+            2,
             2,
           ],"resourceVersion":"1.0","name":"xhr_patch","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"xhr_post","kind":2,"help":"xhr_post(url, body, options)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
-            1,
+            2,
             2,
           ],"resourceVersion":"1.0","name":"xhr_post","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"xhr_put","kind":2,"help":"xhr_put(url, body, options)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
-            1,
+            2,
             2,
           ],"resourceVersion":"1.0","name":"xhr_put","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"xhr_request","kind":2,"help":"xhr_request(verb, url, body, options)","hidden":false,"returnType":2,"argCount":0,"args":[
@@ -63,15 +63,15 @@
         {"value":"noone","hidden":false,"resourceVersion":"1.0","name":"xhr_subject_noone","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"-1","hidden":false,"resourceVersion":"1.0","name":"xhr_subject_self","tags":[],"resourceType":"GMExtensionConstant",},
       ],"ProxyFiles":[],"copyToTargets":-1,"order":[
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
-        {"name":"RequestMaster","path":"RequestMaster.yyp",},
+        {"name":"xhr_delete","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_get","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_head","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_options","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_patch","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_post","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_put","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_request","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_trace","path":"extensions/RequestMaster/RequestMaster.yy",},
       ],"resourceVersion":"1.0","name":null,"tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

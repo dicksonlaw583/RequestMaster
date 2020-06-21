@@ -16,7 +16,7 @@ event_user(14);
 // Define tests here
 tests = [
 	// Basic GET request
-	function() {
+	method(self, function() {
 		xhr_get(url, {
 			params: { a: "foo", b: "bar" },
 			done: function(res) {
@@ -29,9 +29,9 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// Basic GET request with JsonStruct
-	function() {
+	method(self, function() {
 		xhr_get(url, {
 			params: new JsonStruct("a", "foo", "b", "bar"),
 			done: function(res) {
@@ -44,9 +44,9 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// Basic POST request
-	function() {
+	method(self, function() {
 		xhr_post(url, { c: "baz", d: "qux" }, {
 			params: { a: "foo", b: "bar" },
 			done: function(res) {
@@ -59,9 +59,9 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// Basic POST request with JsonStruct
-	function() {
+	method(self, function() {
 		xhr_post(url, new JsonStruct("c", "baz", "d", "qux"), {
 			params: new JsonStruct("a", "foo", "b", "bar"),
 			done: function(res) {
@@ -74,9 +74,9 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// File POST request
-	function() {
+	method(self, function() {
 		xhr_post(url, new MultipartBody({
 			baz: "BAZ",
 			qux: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!")
@@ -100,9 +100,9 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// File POST request with JsonStruct
-	function() {
+	method(self, function() {
 		xhr_post(url, new MultipartBody(new JsonStruct(
 			"baz", "BAZ",
 			"qux", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!")
@@ -126,9 +126,9 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// File POST request (alt), using encoder
-	function() {
+	method(self, function() {
 		xhr_post(url, {
 			baz: "BAZ",
 			qux: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!")
@@ -153,9 +153,9 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// File POST with headers and changed decoder
-	function() {
+	method(self, function() {
 		xhr_post(url, {
 			bar: "baz"
 		}, {
@@ -167,13 +167,13 @@ tests = [
 			},
 			fail: failCallback
 		});
-	},
+	}),
 	// Done: Stop defining tests just above here
-	function() {
+	method(self, function() {
 		layer_background_blend(layer_background_get_id(layer_get_id("Background")), c_green);
 		show_debug_message("Request Master XHR tests completed in " + string(current_time-timeStarted) + "ms.");
 		instance_destroy();
-	}
+	})
 ];
 
 // Start running tests
