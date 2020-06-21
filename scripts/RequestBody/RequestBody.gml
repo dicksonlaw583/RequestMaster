@@ -1,7 +1,13 @@
 function RequestBody(strc) constructor {
 	data = strc;
 	static addValue = function(k, v) {
-		variable_struct_set(data, k, v);
+		switch (instanceof(data)) {
+			case "JsonStruct":
+				data.set(k, v);
+				break;
+			default:
+				variable_struct_set(data, k, v);
+		}
 	};
 }
 

@@ -30,6 +30,21 @@ tests = [
 			fail: failCallback
 		});
 	},
+	// Basic GET request with JsonStruct
+	function() {
+		xhr_get(url, {
+			params: new JsonStruct("a", "foo", "b", "bar"),
+			done: function(res) {
+				assert_equal(res.data, {
+					GET: { a: "foo", b: "bar" },
+					POST: [],
+					FILES: []
+				}, "Request Master XHR basic GET request with JsonStruct failed");
+				nextTest();
+			},
+			fail: failCallback
+		});
+	},
 	// Basic POST request
 	function() {
 		xhr_post(url, { c: "baz", d: "qux" }, {
@@ -40,6 +55,21 @@ tests = [
 					POST: { c: "baz", d: "qux" },
 					FILES: []
 				}, "Request Master XHR basic POST request failed");
+				nextTest();
+			},
+			fail: failCallback
+		});
+	},
+	// Basic POST request with JsonStruct
+	function() {
+		xhr_post(url, new JsonStruct("c", "baz", "d", "qux"), {
+			params: new JsonStruct("a", "foo", "b", "bar"),
+			done: function(res) {
+				assert_equal(res.data, {
+					GET: { a: "foo", b: "bar" },
+					POST: { c: "baz", d: "qux" },
+					FILES: []
+				}, "Request Master XHR basic POST request with JsonStruct failed");
 				nextTest();
 			},
 			fail: failCallback
@@ -66,6 +96,32 @@ tests = [
 						}
 					}
 				}, "Request Master XHR file POST request failed");
+				nextTest();
+			},
+			fail: failCallback
+		});
+	},
+	// File POST request with JsonStruct
+	function() {
+		xhr_post(url, new MultipartBody(new JsonStruct(
+			"baz", "BAZ",
+			"qux", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!")
+		)), {
+			params: { foo: "bar" },
+			done: function(res) {
+				assert_equal(res.data, {
+					GET: { foo: "bar" },
+					POST: { baz: "BAZ" },
+					FILES: {
+						qux: {
+							name: "goodbyeworld.txt",
+							type: "text/plain",
+							error: 0,
+							size: 29,
+							md5: "48b6cf09f29d7d537998fb244c003e22"
+						}
+					}
+				}, "Request Master XHR file POST request with JsonStruct failed");
 				nextTest();
 			},
 			fail: failCallback

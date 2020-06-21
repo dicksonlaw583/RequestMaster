@@ -829,7 +829,7 @@
 ///@param data
 ///@param boundary
 {
-	var isConflict = instanceof(data) == "JsonStruct";
+	var isConflict = instanceof(argument2) == "JsonStruct";
 	var keys = isConflict ? argument2.keys() : variable_struct_get_names(argument2);
 	var nKeys = array_length(keys);
 	for (var i = 0; i < nKeys; ++i) {
