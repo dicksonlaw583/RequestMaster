@@ -2,6 +2,7 @@
 function json_struct_test_load_save_encrypted() {
 	var fnames = [working_directory + "test1.xjson", working_directory + "test2.xjson", working_directory + "test3.xjson"];
 	var fixture = {goo: ["three", 4, undefined]};
+	var conflictFixture = new JsonStruct("goo", ["three", 4, undefined]);
 	var customKey = 987654321;
 	var caesarEncrypt = function(str, key) {
 		var result = "";
@@ -29,6 +30,9 @@ function json_struct_test_load_save_encrypted() {
 	
 	//jsons_load_encrypted(fname, thing)
 	assert_equal(jsons_load_encrypted(fnames[0]), fixture);
+	jsons_conflict_mode(true);
+	assert_equal(jsons_load_encrypted(fnames[0]), conflictFixture);
+	jsons_conflict_mode(false);
 	
 	//jsons_save_encrypted(fname, thing, enckey)
 	jsons_save_encrypted(fnames[1], fixture, customKey)
@@ -38,6 +42,9 @@ function json_struct_test_load_save_encrypted() {
 	
 	//jsons_load_encrypted(fname, thing, enckey)
 	assert_equal(jsons_load_encrypted(fnames[1], customKey), fixture);
+	jsons_conflict_mode(true);
+	assert_equal(jsons_load_encrypted(fnames[1], customKey), conflictFixture);
+	jsons_conflict_mode(false);
 	
 	//jsons_save_encrypted(fname, thing, enckey, encfunc)
 	jsons_save_encrypted(fnames[2], fixture, customKey, caesarEncrypt)
@@ -47,4 +54,7 @@ function json_struct_test_load_save_encrypted() {
 	
 	//jsons_load_encrypted(fname, thing, enckey, encfunc)
 	assert_equal(jsons_load_encrypted(fnames[2], customKey, caesarDecrypt), fixture);
+	jsons_conflict_mode(true);
+	assert_equal(jsons_load_encrypted(fnames[2], customKey, caesarDecrypt), conflictFixture);
+	jsons_conflict_mode(false);
 }

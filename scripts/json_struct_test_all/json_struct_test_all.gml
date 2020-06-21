@@ -1,5 +1,6 @@
 ///@func json_struct_test_all()
 function json_struct_test_all() {
+	global.__json_struct_test_fails__ = 0;
 	var timeA, timeB;
 	timeA = current_time;
 	json_struct_test_encode();
@@ -12,4 +13,5 @@ function json_struct_test_all() {
 	json_struct_test_load_save_encrypted();
 	timeB = current_time;
 	show_debug_message("JSON Struct tests done in " + string(timeB-timeA) + "ms.");
+	return global.__json_struct_test_fails__ == 0;
 }

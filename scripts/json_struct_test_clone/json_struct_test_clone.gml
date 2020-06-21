@@ -55,6 +55,29 @@ function json_struct_test_clone() {
 	assert_not_equal(got, {foo: "bar", goo: { hoo: "car", joo: 777 }});
 	#endregion
 	
+	#region JsonStruct
+	fixture = new JsonStruct();
+	got = jsons_clone(fixture);
+	assert_equal(got, fixture);
+	fixture.set("foo", "bar");
+	assert_equal(fixture, new JsonStruct("foo", "bar"));
+	assert_not_equal(got, new JsonStruct("foo", "bar"));
+	
+	fixture = new JsonStruct("foo", "bar");
+	got = jsons_clone(fixture);
+	assert_equal(got._data, fixture._data);
+	fixture.set("baz", 555);
+	assert_equal(fixture, new JsonStruct("foo", "bar", "baz", 555));
+	assert_not_equal(got, new JsonStruct("foo", "bar", "baz", 555));
+	
+	fixture = new JsonStruct("foo", "bar", "goo", new JsonStruct("hoo", "car"));
+	got = jsons_clone(fixture);
+	assert_equal(got, fixture);
+	fixture.get("goo").set("joo", 777);
+	assert_equal(fixture.get("goo").get("joo"), 777);
+	assert_not_equal(got.get("goo").get("joo"), 777);
+	#endregion
+	
 	#region Mixed
 	fixture = [1, {foo: 2}, 3];
 	got = jsons_clone(fixture);

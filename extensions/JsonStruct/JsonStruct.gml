@@ -278,7 +278,7 @@
 ///@param @seekrec
 {
 	// Setup
-	var result = {};
+	var result = global.__jsons_conflict_mode__ ? (new JsonStruct()) : {};
 	var keyMode = true;
 	var key, val, c;
 	// Keep seeking for new content
@@ -303,7 +303,11 @@
 		// Accept anything else in value mode
 		else {
 			val = __jsons_decode_subcontent__(argument0);
-			variable_struct_set(result, key, val);
+			if (global.__jsons_conflict_mode__) {
+				result.set(key, val);
+			} else {
+				variable_struct_set(result, key, val);
+			}
 			c = __jsons_decode_seek__(argument0);
 			if (c == ",") {
 				keyMode = true;
@@ -490,12 +494,22 @@
 	var cloneResult, siz;
 	switch (typeof(argument0)) {
 		case "struct":
-			cloneResult = {};
-			var keys = variable_struct_get_names(argument0);
-			siz = array_length(keys);
-			for (var i = 0; i < siz; ++i) {
-				var k = keys[i];
-				variable_struct_set(cloneResult, k, jsons_clone(variable_struct_get(argument0, k)));
+			if (instanceof(argument0) == "JsonStruct") {
+				cloneResult = new JsonStruct();
+				var keys = argument0.keys();
+				siz = array_length(keys);
+				for (var i = 0; i < siz; ++i) {
+					var k = keys[i];
+					cloneResult.set(k,  jsons_clone(argument0.get(k)));
+				}
+			} else {
+				cloneResult = {};
+				var keys = variable_struct_get_names(argument0);
+				siz = array_length(keys);
+				for (var i = 0; i < siz; ++i) {
+					var k = keys[i];
+					variable_struct_set(cloneResult, k, jsons_clone(variable_struct_get(argument0, k)));
+				}
 			}
 			return cloneResult;
 		break;
@@ -509,6 +523,13 @@
 		default:
 			return argument0;
 	}
+}
+
+#define jsons_conflict_mode
+///@func jsons_conflict_mode(onOff)
+///@param onOff
+{
+	global.__jsons_conflict_mode__ = argument0;
 }
 
 #define jsons_decode
@@ -608,7 +629,8 @@
 		break;
 		case "struct":
 			buffer = buffer_create(64, buffer_grow, 1);
-			var keys = variable_struct_get_names(argument0);
+			var isConflict = instanceof(argument0) == "JsonStruct";
+			var keys = isConflict ? argument0.keys() : variable_struct_get_names(argument0);
 			siz = array_length(keys);
 			buffer_write(buffer, buffer_text, "{");
 			for (var i = 0; i < siz; ++i) {
@@ -616,7 +638,7 @@
 				if (i > 0) buffer_write(buffer, buffer_text, ",");
 				buffer_write(buffer, buffer_text, jsons_encode(k));
 				buffer_write(buffer, buffer_text, ":");
-				buffer_write(buffer, buffer_text, jsons_encode(variable_struct_get(argument0, k)));
+				buffer_write(buffer, buffer_text, jsons_encode(isConflict ? argument0.get(k) : variable_struct_get(argument0, k)));
 			}
 			buffer_write(buffer, buffer_string, "}");
 		break;
