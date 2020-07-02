@@ -156,7 +156,7 @@ function multipart_requests() {
 						qux: ["WAA!", "HOO?", new BufferPart(bb)]
 					},
 					foobar: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-					goo: new FilePart(working_directory + "helloworld.txt"),
+					goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworld.txt") : new StringFilePart("helloworld.txt", "Hello World!\r\nHello World!"),
 					hoo: new BufferFilePart("goodbyeworld2.txt", bb),
 					qux: ["waa", "hoo"]
 				});
@@ -212,7 +212,7 @@ function multipart_requests() {
 						qux: ["WAA!", "HOO?", new BufferPart(bb)]
 					},
 					"foobar", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-					"goo", new FilePart(working_directory + "helloworld.txt"),
+					"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworld.txt") : new StringFilePart("helloworld.txt", "Hello World!\r\nHello World!"),
 					"hoo", new BufferFilePart("goodbyeworld2.txt", bb),
 					"qux", ["waa", "hoo"]
 				));
