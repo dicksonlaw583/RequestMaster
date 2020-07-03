@@ -141,12 +141,9 @@
 	// Extract body
 	var bodyContent, bodyHelper;
 	if (is_struct(body)) {
-		show_debug_message("Extract body get type: " + instanceof(body));
 		bodyHelper = variable_struct_exists(body, "getBody") ? body : encoder(body);
-		show_debug_message("Body helper get type: " + instanceof(bodyHelper));
 		bodyContent = bodyHelper.getBody();
 	} else {
-		show_debug_message("Body is not a struct");
 		bodyHelper = undefined;
 		bodyContent = body;
 	}
