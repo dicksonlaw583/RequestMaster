@@ -133,7 +133,7 @@ function multipart_requests() {
 							md5: "48b6cf09f29d7d537998fb244c003e22"
 						},
 						goo: {
-							name: "helloworld.txt",
+							name: "helloworlddata.txt",
 							type: "text/plain",
 							error: 0,
 							size: 26,
@@ -156,7 +156,7 @@ function multipart_requests() {
 						qux: ["WAA!", "HOO?", new BufferPart(bb)]
 					},
 					foobar: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-					goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworld.txt") : new StringFilePart("helloworld.txt", "Hello World!\r\nHello World!"),
+					goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new StringFilePart("helloworlddata.txt", "Hello World!\r\nHello World!"),
 					hoo: new BufferFilePart("goodbyeworld2.txt", bb),
 					qux: ["waa", "hoo"]
 				});
@@ -189,7 +189,7 @@ function multipart_requests() {
 							md5: "48b6cf09f29d7d537998fb244c003e22"
 						},
 						goo: {
-							name: "helloworld.txt",
+							name: "helloworlddata.txt",
 							type: "text/plain",
 							error: 0,
 							size: 26,
@@ -212,7 +212,7 @@ function multipart_requests() {
 						qux: ["WAA!", "HOO?", new BufferPart(bb)]
 					},
 					"foobar", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-					"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworld.txt") : new StringFilePart("helloworld.txt", "Hello World!\r\nHello World!"),
+					"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new StringFilePart("helloworlddata.txt", "Hello World!\r\nHello World!"),
 					"hoo", new BufferFilePart("goodbyeworld2.txt", bb),
 					"qux", ["waa", "hoo"]
 				));

@@ -175,7 +175,7 @@ function multipart_test_encode_buffer() {
 		"Content-Disposition: form-data; name=\"foo[qux][2]\"\r\n\r\n" +
 		"Goodbye World! Goodbye World!\r\n" +
 		"------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
-		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworld.txt\"\r\n" +
+		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworlddata.txt\"\r\n" +
 		"Content-Type: text/plain\r\n\r\n" +
 		"Hello World!\r\n" +
 		"Hello World!\r\n" +
@@ -198,7 +198,7 @@ function multipart_test_encode_buffer() {
 			qux: ["WAA!", "HOO?", new BufferPart(bb)]
 		},
 		foobar: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-		goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworld.txt") : new StringFilePart("helloworld.txt", "Hello World!\r\nHello World!"),
+		goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new StringFilePart("helloworlddata.txt", "Hello World!\r\nHello World!"),
 		hoo: new BufferFilePart("goodbyeworld2.txt", bb),
 		qux: ["waa", "hoo"]
 	});
@@ -225,7 +225,7 @@ function multipart_test_encode_buffer() {
 		"Content-Type: text/plain\r\n\r\n" +
 		"Goodbye World! Goodbye World!\r\n", "Special object encode buffer failed: foobar");
 	assert_contains(gotString, "------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
-		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworld.txt\"\r\n" +
+		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworlddata.txt\"\r\n" +
 		"Content-Type: text/plain\r\n\r\n" +
 		"Hello World!\r\n" +
 		"Hello World!\r\n", "Special object encode buffer failed: goo");
@@ -264,7 +264,7 @@ function multipart_test_encode_buffer() {
 		"Content-Disposition: form-data; name=\"foo[qux][2]\"\r\n\r\n" +
 		"Goodbye World! Goodbye World!\r\n" +
 		"------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
-		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworld.txt\"\r\n" +
+		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworlddata.txt\"\r\n" +
 		"Content-Type: text/plain\r\n\r\n" +
 		"Hello World!\r\n" +
 		"Hello World!\r\n" +
@@ -287,7 +287,7 @@ function multipart_test_encode_buffer() {
 			"qux", ["WAA!", "HOO?", new BufferPart(bb)]
 		),
 		"foobar", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-		"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworld.txt") : new StringFilePart("helloworld.txt", "Hello World!\r\nHello World!"),
+		"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new StringFilePart("helloworlddata.txt", "Hello World!\r\nHello World!"),
 		"hoo", new BufferFilePart("goodbyeworld2.txt", bb),
 		"qux", ["waa", "hoo"]
 	));
@@ -314,7 +314,7 @@ function multipart_test_encode_buffer() {
 		"Content-Type: text/plain\r\n\r\n" +
 		"Goodbye World! Goodbye World!\r\n", "Special object encode buffer failed: foobar");
 	assert_contains(gotString, "------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
-		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworld.txt\"\r\n" +
+		"Content-Disposition: form-data; name=\"goo\"; filename=\"helloworlddata.txt\"\r\n" +
 		"Content-Type: text/plain\r\n\r\n" +
 		"Hello World!\r\n" +
 		"Hello World!\r\n", "Special object encode buffer failed: goo");
