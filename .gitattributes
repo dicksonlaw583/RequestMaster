@@ -1,0 +1,2 @@
+# Treat .txt as binary to avoid CRLF-LF conversion
+*.txt binary
