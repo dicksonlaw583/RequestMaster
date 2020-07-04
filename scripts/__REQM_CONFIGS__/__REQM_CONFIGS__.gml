@@ -12,8 +12,10 @@ Set the default callback subject here. Valid values include:
 /**
 Set the default response text decoder here.
 - No transform: string
-- Decode JSON to structs: jsons_encode
-- Decode JSON to maps: json_encode
+- Decode JSON to structs using JSON Struct settings: jsons_decode
+- Decode JSON to structs only: jsons_decode_default
+- Decode JSON to conflict structs only: jsons_decode_conflict
+- Decode JSON to maps: json_decode_to_map
 - Custom decode type: Specify the name of a function that takes a string and returns the decoded result, throwing an exception if unsuccessful
 */
 #macro REQM_DEFAULT_DECODER jsons_decode

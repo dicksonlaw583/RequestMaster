@@ -11,7 +11,7 @@ if (async_load[? "id"] == request) {
 			decodeOk = false,
 			decodeException = undefined;
 		try {
-			decodedResult = is_undefined(decoder) ? async_load[? "result"] : decoder(async_load[? "result"]);
+			decodedResult = is_undefined(decoder) ? async_load[? "result"] : (is_method(decoder) ? decoder(async_load[? "result"]) : script_execute(decoder, async_load[? "result"]));
 			decodeOk = true;
 		} catch (ex) {
 			decodedResult = undefined;
