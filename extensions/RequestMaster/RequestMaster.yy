@@ -59,6 +59,7 @@
             1,
             2,
           ],"resourceVersion":"1.0","name":"xhr_trace","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"xhr_url_root","kind":2,"help":"xhr_url_root(<urlRoot>)","hidden":false,"returnType":1,"argCount":-1,"args":[],"resourceVersion":"1.0","name":"xhr_url_root","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"noone","hidden":false,"resourceVersion":"1.0","name":"xhr_subject_noone","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"-1","hidden":false,"resourceVersion":"1.0","name":"xhr_subject_self","tags":[],"resourceType":"GMExtensionConstant",},
@@ -72,6 +73,7 @@
         {"name":"xhr_put","path":"extensions/RequestMaster/RequestMaster.yy",},
         {"name":"xhr_request","path":"extensions/RequestMaster/RequestMaster.yy",},
         {"name":"xhr_trace","path":"extensions/RequestMaster/RequestMaster.yy",},
+        {"name":"xhr_url_root","path":"extensions/RequestMaster/RequestMaster.yy",},
       ],"resourceVersion":"1.0","name":null,"tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

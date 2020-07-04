@@ -88,6 +88,17 @@
 		body = argument2,
 		options = argument3;
 
+	// Prepend the URL root if url is relative
+	var urlIsRelative = true;
+	var urlFirstSlashPos = string_pos("/", url);
+	if (urlFirstSlashPos) {
+		var urlFirstPart = string_copy(url, 1, urlFirstSlashPos-1);
+		urlIsRelative = urlFirstPart != "https:" && urlFirstPart != "http:";
+	}
+	if (urlIsRelative) {
+		url = xhr_url_root()+url;
+	}
+
 	// Create request daemon
 	var daemon = instance_create_depth(0, 0, 0, __obj_request_master_daemon__);
 	daemon.subject = REQM_DEFAULT_SUBJECT;
@@ -187,4 +198,18 @@
 	var url = argument0,
 		options = argument1;
 	return xhr_request("TRACE", url, "", options);
+}
+
+#define xhr_url_root
+///@func xhr_url_root(<urlRoot>)
+///@param <urlRoot> (optional) The root URL path (including final slash)
+///@desc Set the default URL root if given, otherwise return the current default URL root.
+{
+	switch (argument_count) {
+		case 0: break;
+		case 1: global.__reqm_url_root__ = argument[0]; break;
+		default:
+			show_error("Expected 0 or 1 arguments, got " + string(argument_count) + ".", true);
+	}
+	return global.__reqm_url_root__;
 }

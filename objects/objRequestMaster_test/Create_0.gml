@@ -214,6 +214,35 @@ tests = [
 			fail: failCallback
 		});
 	}),
+	// Basic relative URL request
+	method(self, function() {
+		// Split the test request URL to root-relpath form (url => <newUrlRoot>/<urlRelative>)
+		var originalUrlRoot = xhr_url_root();
+		var slashPos = 1;
+		var nextSlashPos = string_pos_ext("/", url, 2);
+		while (nextSlashPos) {
+			slashPos = nextSlashPos;
+			nextSlashPos = string_pos_ext("/", url, slashPos+1);
+		}
+		var newUrlRoot = string_copy(url, 1, slashPos);
+		var urlRelative = string_delete(url, 1, slashPos);
+		// Set the new root-relpath and make a request
+		xhr_url_root(newUrlRoot);
+		xhr_get(urlRelative, {
+			params: { a: "foo", b: "bar" },
+			done: function(res) {
+				assert_equal(res.data, {
+					GET: { a: "foo", b: "bar" },
+					POST: [],
+					FILES: []
+				}, "Request Master XHR basic relative request failed");
+				nextTest();
+			},
+			fail: failCallback
+		});
+		// Restore original root settings
+		xhr_url_root(originalUrlRoot);
+	}),
 	// Done: Stop defining tests just above here
 	method(self, function() {
 		layer_background_blend(layer_background_get_id(layer_get_id("Background")), c_green);

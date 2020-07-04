@@ -21,10 +21,17 @@ Set the default response text decoder here.
 #macro REQM_DEFAULT_DECODER jsons_decode
 
 /**
-Set the default body encoder here. This will run when an untyped struct is passed as the body.
+Set the default body encoder here.
+This will run when an untyped struct is passed as the body.
 - URL-encoded body: XwfuBody
 - Multipart form data body: MultipartBody
 - JSON body: JsonBody
 - Custom encode type: Specify the name of a constructor implementing body helper methods (i.e. setHeader(map), getBody(), cleanBody(body) --- see RequestBody for examples)
 */
 #macro REQM_DEFAULT_ENCODER XwfuBody
+
+/**
+Set the default URL root here (including the final slash).
+This will be prepended all relative request URLs (i.e. NOT an absolute URL that starts with "http:" or "https:").
+*/
+xhr_url_root("http://localhost/");
