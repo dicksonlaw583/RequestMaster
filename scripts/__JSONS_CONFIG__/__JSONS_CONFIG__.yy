@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "JsonStruct",
-    "path": "folders/Scripts/JsonStruct.yy",
+    "path": "folders/Libraries_config/JsonStruct.yy",
   },
   "resourceVersion": "1.0",
   "name": "__JSONS_CONFIG__",

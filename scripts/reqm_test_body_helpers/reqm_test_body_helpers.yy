@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "RequestMaster_test",
-    "path": "folders/Scripts/RequestMaster_test.yy",
+    "path": "folders/Libraries_test/RequestMaster_test.yy",
   },
   "resourceVersion": "1.0",
   "name": "reqm_test_body_helpers",

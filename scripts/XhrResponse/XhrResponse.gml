@@ -19,40 +19,6 @@ function XhrResponse(_data, _decodeOk, _decodeException, _handle, _headers, _htt
 }
 
 /* vv Text decode helpers vv */
-function jsons_decode_default(s) {
-	var result;
-	// Store previous conflict mode settings
-	var prevConflictMode = global.__jsons_conflict_mode__;
-	jsons_conflict_mode(false);
-	// Try decode
-	try {
-		result = jsons_decode(s);
-	} catch (ex) {
-		jsons_conflict_mode(prevConflictMode);
-		throw ex;
-	}
-	// Restore previous conflict mode settings and return
-	jsons_conflict_mode(prevConflictMode);
-	return result;
-}
-
-function jsons_decode_conflict(s) {
-	var result;
-	// Store previous conflict mode settings
-	var prevConflictMode = global.__jsons_conflict_mode__;
-	jsons_conflict_mode(true);
-	// Try decode
-	try {
-		result = jsons_decode(s);
-	} catch (ex) {
-		jsons_conflict_mode(prevConflictMode);
-		throw ex;
-	}
-	// Restore previous conflict mode settings and return
-	jsons_conflict_mode(prevConflictMode);
-	return result;
-}
-
 function json_decode_to_map(s) {
 	var result = json_decode(s);
 	if (!ds_exists(result, ds_type_map)) throw undefined;

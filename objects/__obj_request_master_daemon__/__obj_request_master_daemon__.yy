@@ -29,7 +29,7 @@
   "overriddenProperties": [],
   "parent": {
     "name": "RequestMaster",
-    "path": "folders/Objects/RequestMaster.yy",
+    "path": "folders/Libraries/RequestMaster.yy",
   },
   "resourceVersion": "1.0",
   "name": "__obj_request_master_daemon__",

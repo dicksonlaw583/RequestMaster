@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "RequestMaster",
-    "path": "folders/Scripts/RequestMaster.yy",
+    "path": "folders/Libraries_config/RequestMaster.yy",
   },
   "resourceVersion": "1.0",
   "name": "__REQM_CONFIGS__",

@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "MultipartBuffer",
-    "path": "folders/Scripts/MultipartBuffer.yy",
+    "name": "RequestMaster",
+    "path": "folders/Libraries/RequestMaster.yy",
   },
   "resourceVersion": "1.0",
   "name": "MultipartData",

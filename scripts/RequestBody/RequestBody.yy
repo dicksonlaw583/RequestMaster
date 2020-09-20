@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "RequestMaster",
-    "path": "folders/Scripts/RequestMaster.yy",
+    "path": "folders/Libraries/RequestMaster.yy",
   },
   "resourceVersion": "1.0",
   "name": "RequestBody",

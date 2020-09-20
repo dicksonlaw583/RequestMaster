@@ -1,7 +1,7 @@
 {
   "spriteId": null,
   "solid": false,
-  "visible": false,
+  "visible": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": null,
@@ -20,12 +20,13 @@
   "eventList": [
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"parent":{"name":"objRequestMaster_test","path":"objects/objRequestMaster_test/objRequestMaster_test.yy",},"resourceVersion":"1.0","name":null,"tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":24,"eventType":7,"collisionObjectId":null,"parent":{"name":"objRequestMaster_test","path":"objects/objRequestMaster_test/objRequestMaster_test.yy",},"resourceVersion":"1.0","name":null,"tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"parent":{"name":"objRequestMaster_test","path":"objects/objRequestMaster_test/objRequestMaster_test.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
     "name": "RequestMaster_test",
-    "path": "folders/Objects/RequestMaster_test.yy",
+    "path": "folders/Libraries_test/RequestMaster_test.yy",
   },
   "resourceVersion": "1.0",
   "name": "objRequestMaster_test",

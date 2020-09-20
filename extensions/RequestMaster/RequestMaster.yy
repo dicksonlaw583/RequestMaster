@@ -102,8 +102,8 @@
   "androidPermissions": [],
   "copyToTargets": -1,
   "parent": {
-    "name": "Extensions",
-    "path": "folders/Extensions.yy",
+    "name": "RequestMaster",
+    "path": "folders/Libraries/RequestMaster.yy",
   },
   "resourceVersion": "1.0",
   "name": "RequestMaster",

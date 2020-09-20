@@ -4,6 +4,7 @@ timeStarted = current_time;
 
 // Generic callbacks
 failCallback = method(self, function(res) {
+	show_message(res);
 	show_error("Request Master XHR test #" + string(testNumber) + " failed.", true);
 });
 nextTest = method(self, function() {
@@ -172,7 +173,7 @@ tests = [
 	method(self, function() {
 		xhr_get(url, {
 			params: { a: "foo", b: "bar" },
-			decoder: jsons_decode_default,
+			decoder: function(s) { return jsons_decode(s); },
 			done: function(res) {
 				assert_equal(res.data, {
 					GET: { a: "foo", b: "bar" },
@@ -188,13 +189,13 @@ tests = [
 	method(self, function() {
 		xhr_get(url, {
 			params: { a: "foo" },
-			decoder: jsons_decode_conflict,
+			decoder: function(s) { return jsons_decode_safe(s); },
 			done: function(res) {
 				assert_equal(res.data, new JsonStruct(
 					"GET", new JsonStruct("a", "foo"),
 					"POST", [],
 					"FILES", []
-				), "Request Master XHR basic GET request (forced conflict) failed");
+				), "Request Master XHR basic GET request (forced safe) failed");
 				nextTest();
 			},
 			fail: failCallback
