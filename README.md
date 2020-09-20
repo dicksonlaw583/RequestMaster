@@ -13,7 +13,7 @@ This library provides a set of extensions for easily encoding, decoding, and sen
 
 Get the current asset package and associated documentation from [the releases page](https://github.com/dicksonlaw583/RequestMaster/releases). Simply extract everything to your project, including the extension and the companion scripts.
 
-
+Alternatively, you can also download a ready-to-go version from [the YoYo Marketplace](https://marketplace.yoyogames.com/assets/9443/request-master) that comes with a compatible version of JSON Struct. Extract everything as usual.
 
 Once you install the package, you may optionally change the options in `__REQM_CONFIGS__`. The defaults should be appropriate for common JSON-based HTTP APIs.
 
