@@ -1,4 +1,4 @@
-# Request Master
+# Request Master v1.0.0
 
 ## Overview
 
@@ -6,14 +6,18 @@ This library provides a set of extensions for easily encoding, decoding, and sen
 
 ## Requirements
 
-- GameMaker Studio 2.3 Open Beta
-- [JSON Struct](https://github.com/dicksonlaw583/JsonStruct)
+- GameMaker Studio 2.3.0 or above
+- [JSON Struct](https://github.com/dicksonlaw583/JsonStruct) v1.0.0 or above
 
 ## Installation
 
-Get the current beta asset package and associated documentation from [the releases page](https://github.com/dicksonlaw583/RequestMaster/releases). Simply extract everything to your project, including the extension and the companion scripts. Once you do that, you may optionally change the options in `__REQM_CONFIGS__`. The defaults should be appropriate for common JSON-based HTTP APIs.
+Get the current asset package and associated documentation from [the releases page](https://github.com/dicksonlaw583/RequestMaster/releases). Simply extract everything to your project, including the extension and the companion scripts.
 
-**Reminder**: Don't forget to install and configure [JSON Struct](https://github.com/dicksonlaw583/JsonStruct) if you have not already done so!
+
+
+Once you install the package, you may optionally change the options in `__REQM_CONFIGS__`. The defaults should be appropriate for common JSON-based HTTP APIs.
+
+**Reminder**: Don't forget to install [JSON Struct](https://github.com/dicksonlaw583/JsonStruct) if you are downloading a package that doesn't come with it!
 
 ## Example
 
