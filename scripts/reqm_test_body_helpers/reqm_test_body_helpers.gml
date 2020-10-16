@@ -13,6 +13,16 @@ function reqm_test_body_helpers() {
 	body.cleanBody(@'{"hello":"world"}');
 	ds_map_clear(map);
 	
+	// StructBody
+	body = new StructBody({
+		hello: "world"
+	});
+	assert_equal(string_replace_all(body.getBody(), " ", ""), @'{"hello":"world"}', "StructBody.getBody() failed");
+	body.setHeader(map);
+	assert_equal(map[? "Content-Type"], "application/json", "StructBody.setHeader(map) failed");
+	body.cleanBody(@'{"hello":"world"}');
+	ds_map_clear(map);
+	
 	// XwfuBody
 	body = new XwfuBody({
 		hello: "world"

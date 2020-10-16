@@ -21,6 +21,16 @@ function JsonBody(strc) : RequestBody(strc) constructor {
 	static cleanBody = function(body) {};
 }
 
+function StructBody(strc) : RequestBody(strc) constructor {
+	static setHeader = function(map) {
+		map[? "Content-Type"] = "application/json";
+	};
+	static getBody = function() {
+		return json_stringify(data);
+	};
+	static cleanBody = function(body) {};
+}
+
 function XwfuBody(strc) : RequestBody(strc) constructor {
 	static setHeader = function(map) {
 		map[? "Content-Type"] = "application/x-www-form-urlencoded";
