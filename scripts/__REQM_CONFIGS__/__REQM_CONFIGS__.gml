@@ -18,7 +18,7 @@ Set the default response text decoder here.
 - Decode JSON to maps: jsons_decode_to_map
 - Custom decode type: Specify the name of a function that takes a string and returns the decoded result, throwing an exception if unsuccessful
 */
-#macro REQM_DEFAULT_DECODER jsons_decode
+#macro REQM_DEFAULT_DECODER json_parse
 
 /**
 Set the default body encoder here.
