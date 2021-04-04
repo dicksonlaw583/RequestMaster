@@ -12,19 +12,21 @@ Set the default callback subject here. Valid values include:
 /**
 Set the default response text decoder here.
 - No transform: string
-- Decode JSON to plain structs: jsons_decode
-- Decode JSON to JsonStructs: jsons_decode_safe
+- Decode JSON to plain structs via built-in: json_parse
+- Decode JSON to plain structs via JSON Structs: jsons_decode
+- Decode JSON to JsonStructs via JSON Structs: jsons_decode_safe
 - Decode JSON to maps: jsons_decode_to_map
 - Custom decode type: Specify the name of a function that takes a string and returns the decoded result, throwing an exception if unsuccessful
 */
-#macro REQM_DEFAULT_DECODER jsons_decode
+#macro REQM_DEFAULT_DECODER json_parse
 
 /**
 Set the default body encoder here.
 This will run when an untyped struct is passed as the body.
 - URL-encoded body: XwfuBody
 - Multipart form data body: MultipartBody
-- JSON body: JsonBody
+- JSON body via JSON Structs: JsonBody
+- JSON body via built-in: StructBody
 - Custom encode type: Specify the name of a constructor implementing body helper methods (i.e. setHeader(map), getBody(), cleanBody(body) --- see RequestBody for examples)
 */
 #macro REQM_DEFAULT_ENCODER XwfuBody
