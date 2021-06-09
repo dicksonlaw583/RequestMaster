@@ -138,8 +138,9 @@
 ///@param val
 {
 	var i, len, k, ks, keys, str;
+	var a1 = argument1;
 	var isConflict = instanceof(argument1) == "JsonStruct";
-	keys = isConflict ? argument1.keys() : variable_struct_get_names(argument1);
+	keys = isConflict ? a1.keys() : variable_struct_get_names(argument1);
 	len = array_length(keys);
 	str = "";
 
@@ -152,7 +153,7 @@
 		// Add the key (if applicable) and value
 		k = keys[i];
 		ks = __xwfu_encode_string__(k);
-		var v = isConflict ? argument1.get(k) : variable_struct_get(argument1, k);
+		var v = isConflict ? a1.get(k) : variable_struct_get(argument1, k);
 		switch (typeof(v)) {
 			case "string":
 				str += argument0 + "%5B" + ks + "%5D=" + __xwfu_encode_string__(v);
@@ -183,8 +184,9 @@
 	if (is_string(argument0)) {
 		return __xwfu_encode_string__(argument0);
 	} else if (is_struct(argument0)) {
+		var a0 = argument0;
 		var isConflict = instanceof(argument0) == "JsonStruct";
-		var keys = isConflict ? argument0.keys() : variable_struct_get_names(argument0);
+		var keys = isConflict ? a0.keys() : variable_struct_get_names(argument0);
 		var nKeys = array_length(keys);
 		var str = "";
 		for (var i = 0; i < nKeys; ++i) {
@@ -192,7 +194,7 @@
 				str += "&";
 			}
 			var k = keys[i];
-			var v = isConflict ? argument0.get(k) : variable_struct_get(argument0, k);
+			var v = isConflict ? a0.get(k) : variable_struct_get(argument0, k);
 			var ks = __xwfu_encode_string__(k);
 			switch (typeof(v)) {
 				case "string":

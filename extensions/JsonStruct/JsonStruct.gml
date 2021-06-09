@@ -4,6 +4,7 @@
 ///@param safe
 {
 	// Setup
+	var _seekrec = argument0;
 	var result = [];
 	var val, c;
 	var i = 0;
@@ -19,7 +20,7 @@
 		} else if (c == "]") {
 			break;
 		} else {
-			throw new JsonStructParseException(argument0.pos, "Expected , or ]");
+			throw new JsonStructParseException(_seekrec.pos, "Expected , or ]");
 		}
 	} until (c == "]");
 	// Done
@@ -30,24 +31,26 @@
 ///@func __jsons_decode_bool__(@seekrec)
 ///@param @seekrec
 {
-	if (string_copy(argument0.str, argument0.pos, 4) == "true") {
-		argument0.pos += 3;
+	var _seekrec = argument0;
+	if (string_copy(_seekrec.str, _seekrec.pos, 4) == "true") {
+		_seekrec.pos += 3;
 		return bool(true);
 	}
-	if (string_copy(argument0.str, argument0.pos, 5) == "false") {
-		argument0.pos += 4;
+	if (string_copy(_seekrec.str, _seekrec.pos, 5) == "false") {
+		_seekrec.pos += 4;
 		return bool(false);
 	}
-	throw new JsonStructParseException(argument0.pos, "Unexpected character in bool");
+	throw new JsonStructParseException(_seekrec.pos, "Unexpected character in bool");
 }
 
 #define __jsons_decode_real__
 ///@func __jsons_decode_real__(@seekrec)
 ///@param @seekrec
 {
-	var i = argument0.pos;
-	var len = string_length(argument0.str);
-	var c = string_char_at(argument0.str, i);
+	var _seekrec = argument0;
+	var i = _seekrec.pos;
+	var len = string_length(_seekrec.str);
+	var c = string_char_at(_seekrec.str, i);
 	// Determine starting state
 	var state;
 	switch (c) {
@@ -63,7 +66,7 @@
 	// Loop until no more digits found
 	var done = false;
 	for (i = i; !done && i <= len; ++i) {
-		c = string_char_at(argument0.str, i);
+		c = string_char_at(_seekrec.str, i);
 		// Parsing logic adapted from JSOnion
 		switch (state) {
 			//0: Found a sign, looking for a starting number
@@ -175,28 +178,29 @@
 		}
 	}
 	// Set seeker's position to loop's end
-	argument0.pos = --i;
+	_seekrec.pos = --i;
 	// Am I still expecting more characters?
 	if (done || state == 1 || state == -2 || state == 5) {
 		return real(str);
 	}
 	// Error: Unexpected ending
-	throw new JsonStructParseException(argument0.pos, "Unexpected end of real");
+	throw new JsonStructParseException(_seekrec.pos, "Unexpected end of real");
 }
 
 #define __jsons_decode_seek__
 ///@func __jsons_decode_seek__(@seekrec)
 ///@param @seekrec
 {
-	var strlen = string_length(argument0.str);
-	for (var i = argument0.pos+1; i <= strlen; ++i) {
-		var c = string_char_at(argument0.str, i);
+	var _seekrec = argument0;
+	var strlen = string_length(_seekrec.str);
+	for (var i = _seekrec.pos+1; i <= strlen; ++i) {
+		var c = string_char_at(_seekrec.str, i);
 		if (!__jsons_is_whitespace__(c)) {
-			argument0.pos = i;
+			_seekrec.pos = i;
 			return c;
 		}
 	}
-	argument0.pos = i;
+	_seekrec.pos = i;
 	return "";
 }
 
@@ -204,13 +208,14 @@
 ///@func __jsons_decode_string__(@seekrec)
 ///@param @seekrec
 {
+	var _seekrec = argument0;
 	var buffer = buffer_create(64, buffer_grow, 1);
-	var strlen = string_length(argument0.str);
+	var strlen = string_length(_seekrec.str);
 	// Build string starting from next character
 	var foundEnd = false;
 	var escapeMode = false;
-	for (var i = argument0.pos+1; !foundEnd && i <= strlen; ++i) {
-		var c = string_char_at(argument0.str, i);
+	for (var i = _seekrec.pos+1; !foundEnd && i <= strlen; ++i) {
+		var c = string_char_at(_seekrec.str, i);
 		if (escapeMode) {
 			switch (c) {
 				case @'"': case @"'": case @'\': case "/":
@@ -230,7 +235,7 @@
 						throw new JsonStructParseException(i, "Invalid \\uxxxx string escape sequence");
 					}
 					try {
-						buffer_write(buffer, buffer_text, chr(__jsons_hex_to_decimal__(string_copy(argument0.str, i+1, 4))));
+						buffer_write(buffer, buffer_text, chr(__jsons_hex_to_decimal__(string_copy(_seekrec.str, i+1, 4))));
 					} catch (exc) {
 						throw new JsonStructParseException(i, "Invalid hex " + string(exc) + " in \\uxxxx string escape sequence");
 					}
@@ -262,10 +267,10 @@
 	}
 	// Set seeker's position to loop's end
 	--i;
-	argument0.pos = i;
+	_seekrec.pos = i;
 	// Throw error if string continues past end without close
 	if (!foundEnd) {
-		throw new JsonStructParseException(argument0.pos, "Expected \"");
+		throw new JsonStructParseException(_seekrec.pos, "Expected \"");
 	}
 	// Done
 	buffer_seek(buffer, buffer_seek_start, 0);
@@ -280,6 +285,7 @@
 ///@param safe
 {
 	// Setup
+	var _seekrec = argument0;
 	var result = argument1 ? (new JsonStruct()) : {};
 	var keyMode = true;
 	var key, val, c;
@@ -294,12 +300,12 @@
 				if (c == ":") {
 					keyMode = false;
 				} else {
-					throw new JsonStructParseException(argument0.pos, "Expected :");
+					throw new JsonStructParseException(_seekrec.pos, "Expected :");
 				}
 			} else if (c == "}") {
 				break;
 			} else {
-				throw new JsonStructParseException(argument0.pos, "Expected string key");
+				throw new JsonStructParseException(_seekrec.pos, "Expected string key");
 			}
 		}
 		// Accept anything else in value mode
@@ -316,7 +322,7 @@
 			} else if (c == "}") {
 				break;
 			} else {
-				throw new JsonStructParseException(argument0.pos, "Expected , or }")
+				throw new JsonStructParseException(_seekrec.pos, "Expected , or }")
 			}
 		}
 	} until (c == "}");
@@ -329,7 +335,8 @@
 ///@param @seekrec
 ///@param safe
 {
-	switch (ord(string_char_at(argument0.str, argument0.pos))) {
+	var _seekrec = argument0;
+	switch (ord(string_char_at(_seekrec.str, _seekrec.pos))) {
 		case ord("{"):
 			return __jsons_decode_struct__(argument0, argument1);
 		break;
@@ -349,7 +356,7 @@
 			return __jsons_decode_real__(argument0);
 		break;
 		default:
-			throw new JsonStructParseException(argument0.pos, "Unexpected character");
+			throw new JsonStructParseException(_seekrec.pos, "Unexpected character");
 	}
 }
 
@@ -357,11 +364,12 @@
 ///@func __jsons_decode_undefined__(@seekrec)
 ///@param @seekrec
 {
-	if (string_copy(argument0.str, argument0.pos, 4) == "null") {
-		argument0.pos += 3;
+	var _seekrec = argument0;
+	if (string_copy(_seekrec.str, _seekrec.pos, 4) == "null") {
+		_seekrec.pos += 3;
 		return undefined;
 	}
-	throw new JsonStructParseException(argument0.pos, "Unexpected character in null");
+	throw new JsonStructParseException(_seekrec.pos, "Unexpected character in null");
 }
 
 #define __jsons_decrypt__
@@ -494,16 +502,17 @@
 #define jsons_clone
 ///@func jsons_clone(val)
 {
+	var _val = argument0;
 	var cloneResult, siz;
 	switch (typeof(argument0)) {
 		case "struct":
 			if (instanceof(argument0) == "JsonStruct") {
 				cloneResult = new JsonStruct();
-				var keys = argument0.keys();
+				var keys = _val.keys();
 				siz = array_length(keys);
 				for (var i = 0; i < siz; ++i) {
 					var k = keys[i];
-					cloneResult.set(k,  jsons_clone(argument0.get(k)));
+					cloneResult.set(k,  jsons_clone(_val.get(k)));
 				}
 			} else {
 				cloneResult = {};
@@ -605,6 +614,7 @@
 ///@param val
 ///@desc Encode the given value into JSON.
 {
+	var _val = argument0;
 	var buffer, result, siz;
 	switch (typeof(argument0)) {
 		case "number":
@@ -662,7 +672,7 @@
 		case "struct":
 			buffer = buffer_create(64, buffer_grow, 1);
 			var isConflict = instanceof(argument0) == "JsonStruct";
-			var keys = isConflict ? argument0.keys() : variable_struct_get_names(argument0);
+			var keys = isConflict ? _val.keys() : variable_struct_get_names(argument0);
 			siz = array_length(keys);
 			buffer_write(buffer, buffer_text, "{");
 			for (var i = 0; i < siz; ++i) {
@@ -670,7 +680,7 @@
 				if (i > 0) buffer_write(buffer, buffer_text, ",");
 				buffer_write(buffer, buffer_text, jsons_encode(k));
 				buffer_write(buffer, buffer_text, ":");
-				buffer_write(buffer, buffer_text, jsons_encode(isConflict ? argument0.get(k) : variable_struct_get(argument0, k)));
+				buffer_write(buffer, buffer_text, jsons_encode(isConflict ? _val.get(k) : variable_struct_get(argument0, k)));
 			}
 			buffer_write(buffer, buffer_string, "}");
 		break;

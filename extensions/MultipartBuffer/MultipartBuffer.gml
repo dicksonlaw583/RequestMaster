@@ -829,12 +829,13 @@
 ///@param data
 ///@param boundary
 {
+	var a2 = argument2;
 	var isConflict = instanceof(argument2) == "JsonStruct";
-	var keys = isConflict ? argument2.keys() : variable_struct_get_names(argument2);
+	var keys = isConflict ? a2.keys() : variable_struct_get_names(argument2);
 	var nKeys = array_length(keys);
 	for (var i = 0; i < nKeys; ++i) {
 		var k = keys[i];
-		var v = isConflict ? argument2.get(k) : variable_struct_get(argument2, k);
+		var v = isConflict ? a2.get(k) : variable_struct_get(argument2, k);
 		var ck = argument0 + "[" + k + "]";
 		switch (typeof(v)) {
 			case "string":
