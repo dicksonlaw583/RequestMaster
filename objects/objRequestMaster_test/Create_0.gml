@@ -76,6 +76,52 @@ tests = [
 			fail: failCallback
 		});
 	}),
+	// Basic PUT request
+	method(self, function() {
+		xhr_put(url, { c: "baz", d: "qux" }, {
+			params: { a: "foo", b: "bar" },
+			done: function(res) {
+				var expected = {
+					GET: { a: "foo", b: "bar" },
+					POST: [],
+					FILES: []
+				};
+				if (os_browser != browser_not_a_browser) {
+					expected.POST = {
+						c: "baz",
+						d: "qux",
+						_method: "PUT",
+					};
+				}
+				assert_equal(res.data, expected, "Request Master XHR basic PUT request failed");
+				nextTest();
+			},
+			fail: failCallback
+		});
+	}),
+	// Basic PUT request with JsonStruct
+	method(self, function() {
+		xhr_put(url, new JsonStruct("c", "baz", "d", "qux"), {
+			params: new JsonStruct("a", "foo", "b", "bar"),
+			done: function(res) {
+				var expected = {
+					GET: { a: "foo", b: "bar" },
+					POST: [],
+					FILES: []
+				};
+				if (os_browser != browser_not_a_browser) {
+					expected.POST = {
+						c: "baz",
+						d: "qux",
+						_method: "PUT",
+					};
+				}
+				assert_equal(res.data, expected, "Request Master XHR basic PUT request with JsonStruct failed");
+				nextTest();
+			},
+			fail: failCallback
+		});
+	}),
 	// File POST request
 	method(self, function() {
 		xhr_post(url, new MultipartBody({
@@ -246,7 +292,7 @@ tests = [
 	}),
 	// Done: Stop defining tests just above here
 	method(self, function() {
-		layer_background_blend(layer_background_get_id(layer_get_id("Background")), c_green);
+		layer_background_blend(layer_background_get_id(layer_get_id("Background")), (global.__test_fails__ == 0) ? c_green : c_red);
 		show_debug_message("Request Master XHR tests completed in " + string(current_time-timeStarted) + "ms.");
 		instance_destroy();
 	})

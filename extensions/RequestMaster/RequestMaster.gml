@@ -153,23 +153,22 @@
 	var bodyContent, bodyHelper;
 	if (is_struct(body)) {
 		bodyHelper = variable_struct_exists(body, "getBody") ? body : encoder(body);
+		// HTML5 only: If verb is not GET or POST, HEAD, OPTIONS or TRACE, stick _method parameter and change verb to POST
+		if (os_browser != browser_not_a_browser) {
+			switch (verb) {
+				case "GET": case "POST": break; case "HEAD": case "OPTIONS": case "TRACE":
+				break;
+				default:
+					if (is_struct(bodyHelper)) {
+						bodyHelper.addValue("_method", verb);
+						verb = "POST";
+					}
+			}
+		}
 		bodyContent = bodyHelper.getBody();
 	} else {
 		bodyHelper = undefined;
 		bodyContent = body;
-	}
-
-	// HTML5 only: If verb is not GET or POST, HEAD, OPTIONS or TRACE, stick _method parameter and change verb to POST
-	if (os_browser != browser_not_a_browser) {
-		switch (verb) {
-			case "GET": case "POST": break; case "HEAD": case "OPTIONS": case "TRACE":
-			break;
-			default:
-				if (is_struct(bodyHelper)) {
-					bodyHelper.addValue("_method", verb);
-					verb = "POST";
-				}
-		}
 	}
 
 	// Attach additional headers from body helper if applicable
