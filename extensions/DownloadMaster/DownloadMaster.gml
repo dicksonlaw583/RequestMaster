@@ -48,6 +48,7 @@
 			case "subject":
 				daemon.subject = paramVal;
 				break;
+			case "textMode": daemon.textMode = paramVal; break;
 		}
 	}
 	switch (daemon.subject) {

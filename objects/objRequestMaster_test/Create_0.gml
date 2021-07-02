@@ -50,6 +50,31 @@ tests = [
 			fail: failCallback
 		});
 	}),
+	// Text GET download request
+	method(self, function() {
+		clearDownloadFile();
+		xhr_download(url, downloadFile, {
+			params: { a: "foofoo" },
+			textMode: true,
+			done: function(res) {
+				assert_equal([res.file, res.httpStatus, res.url, res.sha1Expected, res.sha1Received], [downloadFile, 200, url+"?a=foofoo", undefined, undefined], "Request Master XHR text GET download request failed (response struct)");
+				var expectedResult = {
+					GET: { a: "foofoo" },
+					POST: [],
+					FILES: []
+				};
+				var bufferContents = buffer_read(res.data, buffer_text);
+				assert_equal(json_parse(bufferContents), expectedResult, "Request Master XHR text GET download request failed (buffer)");
+				var f = file_text_open_read(downloadFile);
+				var fileContents = file_text_read_string(f);
+				file_text_close(f);
+				assert_equal(json_parse(fileContents), expectedResult, "Request Master XHR text GET download request failed (file)");
+				clearDownloadFile();
+				nextTest();
+			},
+			fail: failCallback
+		});
+	}),
 	// Validated GET download request
 	method(self, function() {
 		clearDownloadFile();

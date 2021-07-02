@@ -8,3 +8,4 @@ headers = ds_map_create();
 filename = undefined;
 buffer = -1;
 sha1Expected = undefined;
+textMode = false;
