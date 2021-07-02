@@ -1,4 +1,4 @@
-# Request Master v1.1.0
+# Request Master v1.2.0
 
 ## Overview
 
