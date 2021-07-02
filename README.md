@@ -19,8 +19,9 @@ Alternatively, you can also download a ready-to-go version from [the YoYo Market
 
 Once you install the package, you may optionally change the options in `__REQM_CONFIGS__`. The defaults should be appropriate for common JSON-based HTTP APIs.
 
-## Example
+## Examples
 
+### Fetching from an API Endpoint
 ```
 xhr_get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/", {
 	params: { appid: 440, count: 1 },
@@ -29,6 +30,18 @@ xhr_get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/", {
 	},
 	fail: function() {
 		show_message_async("Can't fetch headlines from Steam.");
+	}
+});
+```
+
+### Downloading a File
+```
+xhr_download("http://web.archive.org/web/20060821000040im_/http://gamemaker.nl/images/header.jpg", working_directory + "gmlegacy.jpg", {
+	done: function(res) {
+		sprite_index = sprite_add(res.file, 1, false, false, 0, 0);
+	},
+	fail: function(res) {
+		show_message_async("Failed to download the image!");
 	}
 });
 ```
