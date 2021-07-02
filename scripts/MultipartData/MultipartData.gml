@@ -84,12 +84,52 @@ function FilePart(_filepath) constructor {
 		buffer_write(b, buffer_text, "\"\r\nContent-Type: ");
 		buffer_write(b, buffer_text, mimeType);
 		buffer_write(b, buffer_text, "\r\n\r\n");
-		var f = file_bin_open(filepath, 0);
-		var siz = file_bin_size(f);
-		repeat (siz) {
-			buffer_write(b, buffer_u8, file_bin_read_byte(f));
+		var fb = buffer_load(filepath);
+		var fbsize = buffer_get_size(fb);
+		buffer_copy(fb, 0, fbsize, b, buffer_tell(b));
+		buffer_delete(fb);
+		buffer_seek(b, buffer_seek_relative, fbsize);
+	};
+}
+
+function TextFilePart(_filepath) constructor {
+	filepath = _filepath;
+	newline = "\r\n";
+	trailingNewline = false;
+	if (argument_count > 1 && is_struct(argument[1])) {
+		var opts = argument[1];
+		var optKeys = variable_struct_get_names(opts);
+		for (var i = array_length(optKeys)-1; i >= 0; --i) {
+			var optKey = optKeys[i];
+			switch (optKey) {
+				case "newline": case "trailingNewline":
+					variable_struct_set(self, optKey, variable_struct_get(opts, optKey));
+				break;
+			}
 		}
-		file_bin_close(f);
+	}
+	mimeType = __multipart_get_mime_type__(filename_ext(filepath));
+	static writeToMultipartBuffer = function(b, k, bd) {
+		buffer_write(b, buffer_text, "\r\nContent-Disposition: form-data; name=\"");
+		buffer_write(b, buffer_text, k);
+		buffer_write(b, buffer_text, "\"; filename=\"");
+		buffer_write(b, buffer_text, filename_name(filepath));
+		buffer_write(b, buffer_text, "\"\r\nContent-Type: ");
+		buffer_write(b, buffer_text, mimeType);
+		buffer_write(b, buffer_text, "\r\n\r\n");
+		var pastFirstLine = false;
+		for (var f = file_text_open_read(filepath); !file_text_eof(f); file_text_readln(f)) {
+			if (pastFirstLine) {
+				buffer_write(b, buffer_text, newline);
+			} else {
+				pastFirstLine = true;
+			}
+			buffer_write(b, buffer_text, file_text_read_string(f));
+		}
+		if (trailingNewline) {
+			buffer_write(b, buffer_text, newline);
+		}
+		file_text_close(f);
 	};
 }
 
