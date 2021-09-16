@@ -1,2 +1,5 @@
 # Treat .txt as binary to avoid CRLF-LF conversion
 *.txt binary
+
+# Ignore .yy files for language statistics 
+*.yy linguist-generated=true

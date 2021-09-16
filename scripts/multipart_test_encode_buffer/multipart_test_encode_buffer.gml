@@ -198,7 +198,7 @@ function multipart_test_encode_buffer() {
 			qux: ["WAA!", "HOO?", new BufferPart(bb)]
 		},
 		foobar: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-		goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new StringFilePart("helloworlddata.txt", "Hello World!\r\nHello World!"),
+		goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new TextFilePart(working_directory + "helloworlddata.txt"),
 		hoo: new BufferFilePart("goodbyeworld2.txt", bb),
 		qux: ["waa", "hoo"]
 	});
@@ -287,7 +287,7 @@ function multipart_test_encode_buffer() {
 			"qux", ["WAA!", "HOO?", new BufferPart(bb)]
 		),
 		"foobar", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-		"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new StringFilePart("helloworlddata.txt", "Hello World!\r\nHello World!"),
+		"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new TextFilePart(working_directory + "helloworlddata.txt"),
 		"hoo", new BufferFilePart("goodbyeworld2.txt", bb),
 		"qux", ["waa", "hoo"]
 	));
@@ -331,4 +331,49 @@ function multipart_test_encode_buffer() {
 	assert_contains(gotString, "------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be--\r\n", "Special object encode buffer failed: footer");
 	buffer_delete(got);
 	buffer_delete(bb);
+	
+	// TextFilePart: Default - Windows newlines
+	var mpdb = new MultipartDataBuilder({
+		foo: new TextFilePart(working_directory + "helloworlddata.txt")
+	});
+	mpdb.boundary = "====";
+	got = mpdb.getBuffer();
+	gotString = buffer_get_string(got);
+	assert_equal(gotString, "--====\r\n" +
+		"Content-Disposition: form-data; name=\"foo\"; filename=\"helloworlddata.txt\"\r\n" +
+		"Content-Type: text/plain\r\n\r\n" +
+		"Hello World!\r\n" +
+		"Hello World!"+
+		"\r\n--====--\r\n", "TextFilePart failed: Default - Windows newlines");
+	buffer_delete(got);
+	
+	// TextFilePart: Unix newlines
+	var mpdb = new MultipartDataBuilder({
+		foo: new TextFilePart(working_directory + "helloworlddata.txt", { newline: "\n" })
+	});
+	mpdb.boundary = "====";
+	got = mpdb.getBuffer();
+	gotString = buffer_get_string(got);
+	assert_equal(gotString, "--====\r\n" +
+		"Content-Disposition: form-data; name=\"foo\"; filename=\"helloworlddata.txt\"\r\n" +
+		"Content-Type: text/plain\r\n\r\n" +
+		"Hello World!\n" +
+		"Hello World!"+
+		"\r\n--====--\r\n", "TextFilePart failed: Unix newlines");
+	buffer_delete(got);
+	
+	// TextFilePart: Trailing Unix newlines
+	var mpdb = new MultipartDataBuilder({
+		foo: new TextFilePart(working_directory + "helloworlddata.txt", { newline: "\n", trailingNewline: true })
+	});
+	mpdb.boundary = "====";
+	got = mpdb.getBuffer();
+	gotString = buffer_get_string(got);
+	assert_equal(gotString, "--====\r\n" +
+		"Content-Disposition: form-data; name=\"foo\"; filename=\"helloworlddata.txt\"\r\n" +
+		"Content-Type: text/plain\r\n\r\n" +
+		"Hello World!\n" +
+		"Hello World!\n"+
+		"\r\n--====--\r\n", "TextFilePart failed: Trailing Unix newlines");
+	buffer_delete(got);
 }
