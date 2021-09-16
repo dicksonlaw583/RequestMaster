@@ -377,6 +377,110 @@
 	return decoded;
 }
 
+#define __jsons_encode_formatted__
+///@func __jsons_encode_formatted__(val, indent, currentDepth, maxDepth, colon, comma)
+///@param val
+///@param indent
+///@param currentDepth
+///@param maxDepth
+///@param colon
+///@param comma
+{
+	var buffer, result, siz, currentIndent, fullIndent;
+	switch (typeof(argument0)) {
+		case "number":
+			return JSONS_REAL_ENCODER(argument0);
+		break;
+		case "int64": case "int32":
+			return string(argument0);
+		break;
+		case "string":
+			siz = string_length(argument0);
+			buffer = buffer_create(32, buffer_grow, 1);
+			buffer_write(buffer, buffer_text, @'"');
+			for (var i = 1; i <= siz; ++i) {
+				var c = string_char_at(argument0, i);
+				switch (ord(c)) {
+					case ord("\""): //"
+						c = @'\"';
+					break;
+					case ord("\n"): //\n
+						c = @'\n';
+					break;
+					case ord("\r"): //\r
+						c = @'\r';
+					break;
+					case ord("\\"): //\
+						c = @'\\';
+					break;
+					case ord("\t"): //\t
+						c = @'\t';
+					break;
+					case ord("\v"): //\v
+						c = @'\v';
+					break;
+					case ord("\b"): //\b
+						c = @'\b';
+					break;
+					case ord("\a"): //\a
+						c = @'\a';
+					break;
+				}
+				buffer_write(buffer, buffer_text, c);
+			}
+			buffer_write(buffer, buffer_string, @'"');
+		break;
+		case "array":
+			currentIndent = (argument2 < argument3) ? ("\n" + string_repeat(argument1, argument2)) : "";
+			fullIndent = (argument2 < argument3) ? (currentIndent + argument1) : "";
+			buffer = buffer_create(64, buffer_grow, 1);
+			siz = array_length(argument0);
+			buffer_write(buffer, buffer_text, "[");
+			for (var i = 0; i < siz; ++i) {
+				if (i > 0) buffer_write(buffer, buffer_text, argument5);
+				buffer_write(buffer, buffer_text, fullIndent);
+				buffer_write(buffer, buffer_text, __jsons_encode_formatted__(argument0[i], argument1, argument2+1, argument3, argument4, argument5));
+			}
+			if (siz > 0) buffer_write(buffer, buffer_text, currentIndent);
+			buffer_write(buffer, buffer_string, "]");
+		break;
+		case "struct":
+			currentIndent = (argument2 < argument3) ? ("\n" + string_repeat(argument1, argument2)) : "";
+			fullIndent = (argument2 < argument3) ? (currentIndent + argument1) : "";
+			buffer = buffer_create(64, buffer_grow, 1);
+			var isConflict = instanceof(argument0) == "JsonStruct";
+			var keys = isConflict ? argument0.keys() : variable_struct_get_names(argument0);
+			siz = array_length(keys);
+			array_sort(keys, true);
+			buffer_write(buffer, buffer_text, "{");
+			for (var i = 0; i < siz; ++i) {
+				var k = keys[i];
+				if (i > 0) buffer_write(buffer, buffer_text, argument5);
+				buffer_write(buffer, buffer_text, fullIndent);
+				buffer_write(buffer, buffer_text, jsons_encode(k));
+				buffer_write(buffer, buffer_text, argument4);
+				buffer_write(buffer, buffer_text, __jsons_encode_formatted__(isConflict ? argument0.get(k) : variable_struct_get(argument0, k), argument1, argument2+1, argument3, argument4, argument5));
+			}
+			if (siz > 0) buffer_write(buffer, buffer_text, currentIndent);
+			buffer_write(buffer, buffer_string, "}");
+		break;
+		case "bool":
+			return argument0 ? "true" : "false";
+		break;
+		case "undefined":
+			return "null";
+		break;
+		default:
+			throw new JsonStructTypeException(argument0);
+		break;
+	}
+	// Only strings, arrays and struct to make their way here
+	buffer_seek(buffer, buffer_seek_start, 0);
+	var result = buffer_read(buffer, buffer_string);
+	buffer_delete(buffer);
+	return result;
+}
+
 #define __jsons_encrypt__
 ///@func __jsons_encrypt__(str, key)
 ///@param str
@@ -691,6 +795,22 @@
 	return result;
 }
 
+#define jsons_encode_formatted
+///@func jsons_encode_formatted(val, [indent], [maxDepth], [colon], [comma])
+///@param val
+///@param [indent]
+///@param [maxDepth]
+///@param [colon]
+///@param [comma]
+{
+	var val = argument[0];
+	var indent = (argument_count > 1) ? argument[1] : JSONS_FORMATTED_INDENT;
+	var maxDepth = (argument_count > 2) ? argument[2] : JSONS_FORMATTED_MAX_DEPTH;
+	var colon = (argument_count > 3) ? argument[3] : JSONS_FORMATTED_COLON;
+	var comma = (argument_count > 4) ? argument[4] : JSONS_FORMATTED_COMMA;
+	return __jsons_encode_formatted__(val, indent, 0, maxDepth, colon, comma);
+}
+
 #define jsons_encrypt
 ///@func jsons_encrypt(thing, [enckey], [encfunc])
 ///@param thing
@@ -879,5 +999,25 @@
 	}
 	var f = file_text_open_write(argument[0]);
 	file_text_write_string(f, jsons_encrypt(argument[1], enckey, encfunc));
+	file_text_close(f);
+}
+
+#define jsons_save_formatted
+///@func jsons_save_formatted(fname, val, [indent], [maxDepth], [colon], [comma])
+///@param fname
+///@param val
+///@param [indent]
+///@param [maxDepth]
+///@param [colon]
+///@param [comma]
+{
+	var val = argument[1];
+	var indent = (argument_count > 2) ? argument[2] : JSONS_FORMATTED_INDENT;
+	var maxDepth = (argument_count > 3) ? argument[3] : JSONS_FORMATTED_MAX_DEPTH;
+	var colon = (argument_count > 4) ? argument[4] : JSONS_FORMATTED_COLON;
+	var comma = (argument_count > 5) ? argument[5] : JSONS_FORMATTED_COMMA;
+	var output = __jsons_encode_formatted__(val, indent, 0, maxDepth, colon, comma);
+	var f = file_text_open_write(argument[0]);
+	file_text_write_string(f, output);
 	file_text_close(f);
 }
