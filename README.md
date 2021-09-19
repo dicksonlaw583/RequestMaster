@@ -1,4 +1,4 @@
-# Request Master v1.2.0
+# Request Master
 
 ## Overview
 
@@ -24,13 +24,13 @@ Once you install the package, you may optionally change the options in `__REQM_C
 ### Fetching from an API Endpoint
 ```
 xhr_get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/", {
-	params: { appid: 440, count: 1 },
-	done: function(res) {
-		show_message_async("Latest news from Team Fortress 2: " + res.data.appnews.newsitems[0].title);
-	},
-	fail: function() {
-		show_message_async("Can't fetch headlines from Steam.");
-	}
+    params: { appid: 282800, count: 1 },
+    done: function(res) {
+        show_message("Latest news from 100% Orange Juice: " + res.data.appnews.newsitems[0].title);
+    },
+    fail: function() {
+        show_message("Can't fetch headlines from Steam.");
+    }
 });
 ```
 
@@ -45,3 +45,4 @@ xhr_download("http://web.archive.org/web/20060821000040im_/http://gamemaker.nl/i
 	}
 });
 ```
+
