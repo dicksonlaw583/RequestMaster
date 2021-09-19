@@ -9,6 +9,7 @@
     {"id":{"name":"GMAssert","path":"extensions/GMAssert/GMAssert.yy",},"order":0,},
     {"id":{"name":"reqm_test_all","path":"scripts/reqm_test_all/reqm_test_all.yy",},"order":0,},
     {"id":{"name":"__GMA_BREAKPOINT__","path":"scripts/__GMA_BREAKPOINT__/__GMA_BREAKPOINT__.yy",},"order":0,},
+    {"id":{"name":"__obj_download_master_buffer_hitman__","path":"objects/__obj_download_master_buffer_hitman__/__obj_download_master_buffer_hitman__.yy",},"order":10,},
     {"id":{"name":"reqm_test_requests","path":"scripts/reqm_test_requests/reqm_test_requests.yy",},"order":1,},
     {"id":{"name":"JsonStructDataType","path":"scripts/JsonStructDataType/JsonStructDataType.yy",},"order":1,},
     {"id":{"name":"multipart_test_encode_buffer","path":"scripts/multipart_test_encode_buffer/multipart_test_encode_buffer.yy",},"order":4,},
