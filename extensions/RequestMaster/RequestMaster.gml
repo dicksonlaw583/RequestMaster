@@ -154,7 +154,7 @@
 	if (is_struct(body)) {
 		bodyHelper = variable_struct_exists(body, "getBody") ? body : encoder(body);
 		// HTML5 only: If verb is not GET or POST, HEAD, OPTIONS or TRACE, stick _method parameter and change verb to POST
-		if (os_browser != browser_not_a_browser) {
+		if (os_browser != browser_not_a_browser || os_type == os_operagx) {
 			switch (verb) {
 				case "GET": case "POST": break; case "HEAD": case "OPTIONS": case "TRACE":
 				break;

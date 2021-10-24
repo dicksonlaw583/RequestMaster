@@ -234,7 +234,7 @@ tests = [
 					POST: [],
 					FILES: []
 				};
-				if (os_browser != browser_not_a_browser) {
+				if (os_browser != browser_not_a_browser || os_type == os_operagx) {
 					expected.POST = {
 						c: "baz",
 						d: "qux",
@@ -257,7 +257,7 @@ tests = [
 					POST: [],
 					FILES: []
 				};
-				if (os_browser != browser_not_a_browser) {
+				if (os_browser != browser_not_a_browser || os_type == os_operagx) {
 					expected.POST = {
 						c: "baz",
 						d: "qux",

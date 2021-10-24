@@ -198,7 +198,7 @@ function multipart_test_encode_buffer() {
 			qux: ["WAA!", "HOO?", new BufferPart(bb)]
 		},
 		foobar: new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-		goo: (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new TextFilePart(working_directory + "helloworlddata.txt"),
+		goo: (os_browser == browser_not_a_browser && os_type != os_operagx) ? new FilePart(working_directory + "helloworlddata.txt") : new TextFilePart(working_directory + "helloworlddata.txt"),
 		hoo: new BufferFilePart("goodbyeworld2.txt", bb),
 		qux: ["waa", "hoo"]
 	});
@@ -287,7 +287,7 @@ function multipart_test_encode_buffer() {
 			"qux", ["WAA!", "HOO?", new BufferPart(bb)]
 		),
 		"foobar", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
-		"goo", (os_browser == browser_not_a_browser) ? new FilePart(working_directory + "helloworlddata.txt") : new TextFilePart(working_directory + "helloworlddata.txt"),
+		"goo", (os_browser == browser_not_a_browser && os_type != os_operagx) ? new FilePart(working_directory + "helloworlddata.txt") : new TextFilePart(working_directory + "helloworlddata.txt"),
 		"hoo", new BufferFilePart("goodbyeworld2.txt", bb),
 		"qux", ["waa", "hoo"]
 	));
