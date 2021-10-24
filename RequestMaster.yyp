@@ -47,6 +47,7 @@
     {"name":"Windows","path":"options/windows/options_windows.yy",},
     {"name":"Windows UWP","path":"options/windowsuap/options_windowsuap.yy",},
     {"name":"Xbox One","path":"options/xboxone/options_xboxone.yy",},
+    {"name":"operagx","path":"options/operagx/options_operagx.yy",},
   ],
   "isDnDProject": false,
   "isEcma": false,
@@ -84,7 +85,7 @@
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"download_result.txt","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
-    "IDEVersion": "2.3.4.580",
+    "IDEVersion": "2.3.5.589",
   },
   "resourceVersion": "1.4",
   "name": "RequestMaster",
