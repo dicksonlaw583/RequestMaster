@@ -35,6 +35,9 @@ xhr_get("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/", {
 ```
 
 ### Downloading a File
+
+Note: Due to browser-side JS restrictions, this does not work on HTML5 or OperaGX exports.
+
 ```
 xhr_download("http://web.archive.org/web/20060821000040im_/http://gamemaker.nl/images/header.jpg", working_directory + "gmlegacy.jpg", {
 	done: function(res) {
@@ -45,4 +48,5 @@ xhr_download("http://web.archive.org/web/20060821000040im_/http://gamemaker.nl/i
 	}
 });
 ```
+
 
