@@ -1,0 +1,9 @@
+{
+  "extensionId": {
+    "name": "MultipartBuffer",
+    "path": "extensions/MultipartBuffer/MultipartBuffer.yy"
+  },
+  "resourceVersion": "1.0",
+  "resourceType": "GMExtensionConfigSet",
+  "configurables": null
+}
