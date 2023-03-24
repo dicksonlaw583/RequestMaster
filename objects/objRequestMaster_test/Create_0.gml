@@ -181,6 +181,7 @@ tests = [
 	}),
 	// Basic GET request with JsonStruct
 	method(self, function() {
+		///Feather disable GM1041
 		xhr_get(url, {
 			params: new JsonStruct("a", "foo", "b", "bar"),
 			done: function(res) {
@@ -193,6 +194,7 @@ tests = [
 			},
 			fail: failCallback
 		});
+		///Feather enable GM1041
 	}),
 	// Basic POST request
 	method(self, function() {
@@ -211,6 +213,7 @@ tests = [
 	}),
 	// Basic POST request with JsonStruct
 	method(self, function() {
+		///Feather disable GM1041
 		xhr_post(url, new JsonStruct("c", "baz", "d", "qux"), {
 			params: new JsonStruct("a", "foo", "b", "bar"),
 			done: function(res) {
@@ -223,6 +226,7 @@ tests = [
 			},
 			fail: failCallback
 		});
+		///Feather enable GM1041
 	}),
 	// Basic PUT request
 	method(self, function() {
@@ -249,6 +253,7 @@ tests = [
 	}),
 	// Basic PUT request with JsonStruct
 	method(self, function() {
+		///Feather disable GM1041
 		xhr_put(url, new JsonStruct("c", "baz", "d", "qux"), {
 			params: new JsonStruct("a", "foo", "b", "bar"),
 			done: function(res) {
@@ -269,6 +274,7 @@ tests = [
 			},
 			fail: failCallback
 		});
+		///Feather enable GM1041
 	}),
 	// File POST request
 	method(self, function() {
@@ -298,6 +304,7 @@ tests = [
 	}),
 	// File POST request with JsonStruct
 	method(self, function() {
+		///Feather disable GM1041
 		xhr_post(url, new MultipartBody(new JsonStruct(
 			"baz", "BAZ",
 			"qux", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!")
@@ -321,6 +328,7 @@ tests = [
 			},
 			fail: failCallback
 		});
+		///Feather enable GM1041
 	}),
 	// File POST request (alt), using encoder
 	method(self, function() {
@@ -385,12 +393,14 @@ tests = [
 			params: { a: "foo" },
 			decoder: function(s) { return jsons_decode_safe(s); },
 			done: function(res) {
+				///Feather disable GM1041
 				assert_equal(res.data, new JsonStruct(
 					"GET", new JsonStruct("a", "foo"),
 					"POST", [],
 					"FILES", []
 				), "Request Master XHR basic GET request (forced safe) failed");
 				nextTest();
+				///Feather enable GM1041
 			},
 			fail: failCallback
 		});

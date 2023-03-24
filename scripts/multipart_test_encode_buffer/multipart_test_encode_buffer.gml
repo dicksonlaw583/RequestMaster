@@ -34,10 +34,12 @@ function multipart_test_encode_buffer() {
 		@'Content-Disposition: form-data; name="baz"' + "\r\n\r\n" +
 		"bazqux\r\n" +
 		"------b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a--\r\n";
+	///Feather disable GM1041
 	mpdb = new MultipartDataBuilder(new JsonStruct(
 		"foo", "foobar",
 		"baz", "bazqux"
 	));
+	///Feather enable GM1041
 	mpdb.boundary = "----b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a";
 	got = mpdb.getBuffer();
 	gotString = buffer_get_string(got);
@@ -122,6 +124,7 @@ function multipart_test_encode_buffer() {
 		"Content-Disposition: form-data; name=\"qux[1]\"\r\n\r\n" +
 		"hoo\r\n" +
 		"------b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a--\r\n";
+	///Feather disable GM1041
 	mpdb = new MultipartDataBuilder(new JsonStruct(
 		"foo", new JsonStruct(
 			"bar", "BAR",
@@ -130,6 +133,7 @@ function multipart_test_encode_buffer() {
 		),
 		"qux", ["waa", "hoo"]
 	));
+	///Feather enable GM1041
 	mpdb.boundary = "----b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a";
 	got = mpdb.getBuffer();
 	gotString = buffer_get_string(got);
@@ -282,6 +286,7 @@ function multipart_test_encode_buffer() {
 		"hoo\r\n" +
 		"------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be--\r\n";
 	bb = Buffer(buffer_text, "Goodbye World! Goodbye World!");
+	///Feather disable GM1041
 	mpdb = new MultipartDataBuilder(new JsonStruct(
 		"foo", new JsonStruct(
 			"bar", "BAR",
@@ -295,6 +300,7 @@ function multipart_test_encode_buffer() {
 		"hoo", new BufferFilePart("goodbyeworld2.txt", bb),
 		"qux", ["waa", "hoo"]
 	));
+	///Feather enable GM1041
 	mpdb.boundary = "----c0a6329b1a8c7e2d8cc4b90919248fa416aff2be";
 	got = mpdb.getBuffer();
 	gotString = buffer_get_string(got);
