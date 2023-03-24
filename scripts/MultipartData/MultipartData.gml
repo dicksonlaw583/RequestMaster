@@ -118,7 +118,8 @@ function TextFilePart(_filepath) constructor {
 		buffer_write(b, buffer_text, mimeType);
 		buffer_write(b, buffer_text, "\r\n\r\n");
 		var pastFirstLine = false;
-		for (var f = file_text_open_read(filepath); !file_text_eof(f); file_text_readln(f)) {
+		var f;
+		for (f = file_text_open_read(filepath); !file_text_eof(f); file_text_readln(f)) {
 			if (pastFirstLine) {
 				buffer_write(b, buffer_text, newline);
 			} else {

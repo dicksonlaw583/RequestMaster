@@ -27,7 +27,8 @@ function JsonStruct() constructor {
 	
 	static set = function(key, value) {
 		var imax = array_length(_data);
-		for (var i = 0; i < imax; i += 2) {
+		var i;
+		for (i = 0; i < imax; i += 2) {
 			if (_data[@i] == key) {
 				_data[@i+1] = value;
 				return self;
