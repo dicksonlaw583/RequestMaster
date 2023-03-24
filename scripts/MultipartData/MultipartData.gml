@@ -1,7 +1,15 @@
-function MultipartDataBuilder(_data) constructor {
-	boundary = __multipart_generate_boundary__();
-	data = _data;
+///@class MultipartDataBuilder(data, boundary=String)
+///@param {Struct,Struct.JsonStruct} data The body data.
+///@param {String} boundary (Optional) The boundary string to use.
+///@desc Utility class for building multipart/form-data body buffers.
+function MultipartDataBuilder(data, boundary=__multipart_generate_boundary__()) constructor {
+	self.boundary = boundary;
+	self.data = data;
 	size = 0;
+	
+	///@func getBuffer()
+	///@return {Id.Buffer}
+	///@desc Return a multipart/form-data body buffer.
 	static getBuffer = function() {
 		var bodyBuffer = buffer_create(4096, buffer_grow, 1);
 		buffer_write(bodyBuffer, buffer_text, "--");
@@ -51,16 +59,30 @@ function MultipartDataBuilder(_data) constructor {
 		writeHeaderMap(headerMap);
 		return headerMap;
 	};
+	
+	///@func writeHeaderMap(map)
+	///@param {Id.DsMap} map 
+	///@desc Set headers applicable to multipart/form-data in the given header map.
 	static writeHeaderMap = function(map) {
 		map[? "Content-Type"] = "multipart/form-data; boundary=" + boundary;
 		map[? "Content-Length"] = string(size);
 	};
 }
 
-function StringFilePart(_filename, _body) constructor {
-	filename = _filename;
+///@class StringFilePart(filename, body)
+///@param {string} filename The file name reported in the request body.
+///@param {string} body The contents of the simulated file.
+///@desc A file part simulated by a string.
+function StringFilePart(filename, body) constructor {
+	self.filename = filename;
 	mimeType = __multipart_get_mime_type__(filename_ext(filename));
-	body = _body;
+	self.body = body;
+	
+	///@func writeToMultipartBuffer(b, k, bd)
+	///@param {Id.Buffer} b The buffer to write to.
+	///@param {string} k The key to write to.
+	///@param {string} bd The boundary string to use.
+	///@desc Write file data to the given buffer.
 	static writeToMultipartBuffer = function(b, k, bd) {
 		buffer_write(b, buffer_text, "\r\nContent-Disposition: form-data; name=\"");
 		buffer_write(b, buffer_text, k);
@@ -73,9 +95,18 @@ function StringFilePart(_filename, _body) constructor {
 	};
 }
 
-function FilePart(_filepath) constructor {
-	filepath = _filepath;
+///@class FilePart(filepath)
+///@param {string} filepath The file to attach.
+///@desc A file part tied to a file at the binary level.
+function FilePart(filepath) constructor {
+	self.filepath = filepath;
 	mimeType = __multipart_get_mime_type__(filename_ext(filepath));
+	
+	///@func writeToMultipartBuffer(b, k, bd)
+	///@param {Id.Buffer} b The buffer to write to.
+	///@param {string} k The key to write to.
+	///@param {string} bd The boundary string to use.
+	///@desc Write file data to the given buffer.
 	static writeToMultipartBuffer = function(b, k, bd) {
 		buffer_write(b, buffer_text, "\r\nContent-Disposition: form-data; name=\"");
 		buffer_write(b, buffer_text, k);
@@ -92,8 +123,11 @@ function FilePart(_filepath) constructor {
 	};
 }
 
-function TextFilePart(_filepath) constructor {
-	filepath = _filepath;
+///@class TextFilePart(filepath)
+///@param {string} filepath The file to attach
+///@desc A file part tied to a file at the text level.
+function TextFilePart(filepath) constructor {
+	self.filepath = filepath;
 	newline = "\r\n";
 	trailingNewline = false;
 	if (argument_count > 1 && is_struct(argument[1])) {
@@ -109,6 +143,12 @@ function TextFilePart(_filepath) constructor {
 		}
 	}
 	mimeType = __multipart_get_mime_type__(filename_ext(filepath));
+	
+	///@func writeToMultipartBuffer(b, k, bd)
+	///@param {Id.Buffer} b The buffer to write to.
+	///@param {string} k The key to write to.
+	///@param {string} bd The boundary string to use.
+	///@desc Write file data to the given buffer.
 	static writeToMultipartBuffer = function(b, k, bd) {
 		buffer_write(b, buffer_text, "\r\nContent-Disposition: form-data; name=\"");
 		buffer_write(b, buffer_text, k);
@@ -134,12 +174,22 @@ function TextFilePart(_filepath) constructor {
 	};
 }
 
-function BufferFilePart(_filename, _buffer) constructor {
-	filename = _filename;
+///@class BufferFilePart(filename, buffer)
+///@param {string} filename The file name reported in the request body.
+///@param {Id.Buffer} buffer The contents of the simulated file.
+///@desc A file part simulated by a buffer.
+function BufferFilePart(filename, buffer) constructor {
+	self.filename = filename;
 	mimeType = __multipart_get_mime_type__(filename_ext(filename));
-	buffer = _buffer;
+	self.buffer = buffer;
 	bufferStart = 0;
 	bufferSize = buffer_tell(buffer);
+	
+	///@func writeToMultipartBuffer(b, k, bd)
+	///@param {Id.Buffer} b The buffer to write to.
+	///@param {string} k The key to write to.
+	///@param {string} bd The boundary string to use.
+	///@desc Write file data to the given buffer.
 	static writeToMultipartBuffer = function(b, k, bd) {
 		buffer_write(b, buffer_text, "\r\nContent-Disposition: form-data; name=\"");
 		buffer_write(b, buffer_text, k);
@@ -157,10 +207,19 @@ function BufferFilePart(_filename, _buffer) constructor {
 	};
 }
 
-function BufferPart(_buffer) constructor {
-	buffer = _buffer;
+///@class BufferPart(buffer)
+///@param {Id.Buffer} buffer The buffer to use.
+///@desc A field value represented by a buffer.
+function BufferPart(buffer) constructor {
+	self.buffer = buffer;
 	bufferStart = 0;
 	bufferSize = buffer_tell(buffer);
+	
+	///@func writeToMultipartBuffer(b, k, bd)
+	///@param {Id.Buffer} b The buffer to write to.
+	///@param {string} k The key to write to.
+	///@param {string} bd The boundary string to use.
+	///@desc Write file data to the given buffer.
 	static writeToMultipartBuffer = function(b, k, bd) {
 		buffer_write(b, buffer_text, "\r\nContent-Disposition: form-data; name=\"");
 		buffer_write(b, buffer_text, k);
