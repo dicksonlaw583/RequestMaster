@@ -456,5 +456,9 @@ tests = [
 	})
 ];
 
-// Start running tests
-tests[0]();
+// Start running tests if the target URL is set
+if (url == "") {
+	tests[array_length(tests)-1]();
+} else {
+	tests[0]();
+}

@@ -2,7 +2,7 @@
 ///Feather disable GM2016
 
 // Default URL --- LEAVE THIS HERE!
-url = "https://request-master-test-target.herokuapp.com/echo_request.php";
+url = "";
 
 // Here you can set export-specific URLs to test. The echo_request.php is available as the included file.
 // Serve it from a PHP-enabled server, then 
