@@ -19,8 +19,8 @@ function RequestBody(data) constructor {
 	};
 	
 	///@func cleanBody()
-	///@desc Do the cleanup routines for this request body.
-	static cleanBody = function() {
+	///@desc Do the cleanup routines for the generated request body.
+	static cleanBody = function(body) {
 		
 	};
 }
@@ -104,7 +104,7 @@ function MultipartBody(data) : RequestBody(data) constructor {
 	};
 	
 	///@func cleanBody()
-	///@desc Do the cleanup routines for this request body.
+	///@desc Do the cleanup routines for the generated body.
 	static cleanBody = function(body) {
 		buffer_delete(body);
 	};
