@@ -9,6 +9,7 @@ function __multipart_generate_boundary__() {
 ///@func __multipart_get_mime_type__(ext)
 ///@param {String} ext The extension to check (with leading dot)
 ///@return {String}
+///@ignore
 ///@desc (INTERNAL: MultipartData) Return the MIME type of the given extension.
 ///
 ///Based on data from http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
@@ -787,6 +788,7 @@ function __multipart_get_mime_type__(ext) {
 ///@param {Id.Buffer} buffer The buffer to write to.
 ///@param {Array} data The data array.
 ///@param {String} boundary The boundary string to use.
+///@ignore
 ///@desc (INTERNAL: MultipartData) Write a subarray in multipart/form-data to the buffer.
 function __multipart_write_subarray__(prefix, buffer, data, boundary) {
 	var n = array_length(data);
@@ -831,6 +833,7 @@ function __multipart_write_subarray__(prefix, buffer, data, boundary) {
 ///@param {Id.Buffer} buffer The buffer to write to.
 ///@param {Struct} data The data struct.
 ///@param {String} boundary The boundary string to use.
+///@ignore
 ///@desc (INTERNAL: MultipartData) Write a substruct in multipart/form-data to the buffer.
 function __multipart_write_substruct__(prefix, buffer, data, boundary) {
 	var isConflict = instanceof(data) == "JsonStruct";

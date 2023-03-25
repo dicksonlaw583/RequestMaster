@@ -1,5 +1,6 @@
 ///@func RequestBody(data)
 ///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@ignore
 ///@desc A generic Request Master request body.
 function RequestBody(data) constructor {
 	self.data = data;

@@ -6,6 +6,7 @@
 ///@param {Id.DsMap} headers A map containing the headers of the response.
 ///@param {string} httpStatus The HTTP status code of the response (e.g. 200).
 ///@param {string} url The URL being requested.
+///@desc Information class for the result of a Request Master HTTP request.
 function XhrResponse(data, decodeOk, decodeException, handle, headers, httpStatus, url) constructor {
 	self.data = data;
 	self.decodeOk = decodeOk;

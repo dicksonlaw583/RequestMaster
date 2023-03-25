@@ -6,6 +6,7 @@
 ///@param {string} httpStatus The HTTP status code of the response (e.g. 200).
 ///@param {string} url The URL being requested.
 ///@param {string,undefined} sha1Expected (if provided) The SHA1 hash expected of the download.
+///@desc Information class for the result of a Request Master file download.
 function XhrDownloadResponse(data, file, handle, headers, httpStatus, url, sha1Expected=undefined) constructor {
 	self.data = data;
 	self.file = file;
