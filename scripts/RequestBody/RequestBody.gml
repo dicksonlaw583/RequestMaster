@@ -1,5 +1,5 @@
 ///@func RequestBody(data)
-///@param {Struct,Struct.JsonStruct} data
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
 ///@desc A generic Request Master request body.
 function RequestBody(data) constructor {
 	self.data = data;
@@ -26,7 +26,8 @@ function RequestBody(data) constructor {
 }
 
 ///@func JsonBody(data)
-///@param {Struct,Struct.JsonStruct} data
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@extends {RequestBody}
 ///@desc An application/json request body encoded using JSON Structs.
 function JsonBody(data) : RequestBody(data) constructor {
 	///@func setHeader(map)
@@ -45,7 +46,8 @@ function JsonBody(data) : RequestBody(data) constructor {
 }
 
 ///@func StructBody(data)
-///@param {Struct} data 
+///@param {Struct} data The data of the request body.
+///@extends {RequestBody}
 ///@desc An application/json request body encoded using json_stringify().
 function StructBody(data) : RequestBody(data) constructor {
 	///@func setHeader(map)
@@ -63,6 +65,10 @@ function StructBody(data) : RequestBody(data) constructor {
 	};
 }
 
+///@class XwfuBody(data)
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@extends {RequestBody}
+///@desc An application/x-www-form-urlencoded request body.
 function XwfuBody(data) : RequestBody(data) constructor {
 	///@func setHeader(map)
 	///@param {Id.DsMap} map 
@@ -79,6 +85,10 @@ function XwfuBody(data) : RequestBody(data) constructor {
 	};
 }
 
+///@class MultipartBody(data)
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@extends {RequestBody}
+///@desc A multipart/form-data request body.
 function MultipartBody(data) : RequestBody(data) constructor {
 	self.mpdb = new MultipartDataBuilder(data);
 	

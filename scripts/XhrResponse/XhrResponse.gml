@@ -1,11 +1,11 @@
 ///@func XhrResponse(data, decodeOk, decodeException, handle, headers, httpStatus, url)
-///@param {any} data
-///@param {bool} decodeOk
-///@param {any} decodeException
-///@param {any} handle
-///@param {Id.DsMap} headers
-///@param {string} httpStatus
-///@param {string} url
+///@param {any} data (if successful) The decoded result of the response.
+///@param {bool} decodeOk Whether the decode was successful.
+///@param {any} decodeException (if decode failed) The exception thrown by the decoder.
+///@param {any} handle The asynchronous request ID.
+///@param {Id.DsMap} headers A map containing the headers of the response.
+///@param {string} httpStatus The HTTP status code of the response (e.g. 200).
+///@param {string} url The URL being requested.
 function XhrResponse(data, decodeOk, decodeException, handle, headers, httpStatus, url) constructor {
 	self.data = data;
 	self.decodeOk = decodeOk;

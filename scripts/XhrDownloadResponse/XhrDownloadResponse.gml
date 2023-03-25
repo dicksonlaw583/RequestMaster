@@ -1,11 +1,11 @@
 ///@func XhrDownloadResponse(data, file, handle, headers, httpStatus, url, sha1Expected)
-///@param {any} data
-///@param {string,undefined} file
-///@param {any} handle
-///@param {Id.DsMap} headers
-///@param {string} httpStatus
-///@param {string} url
-///@param {string,undefined} sha1Expected
+///@param {any} data The buffer holding the full response.
+///@param {string,undefined} file The file being downloaded to, if applicable.
+///@param {any} handle The asynchronous request ID returned by http_request.
+///@param {Id.DsMap} headers A map containing the headers of the response.
+///@param {string} httpStatus The HTTP status code of the response (e.g. 200).
+///@param {string} url The URL being requested.
+///@param {string,undefined} sha1Expected (if provided) The SHA1 hash expected of the download.
 function XhrDownloadResponse(data, file, handle, headers, httpStatus, url, sha1Expected=undefined) constructor {
 	self.data = data;
 	self.file = file;
