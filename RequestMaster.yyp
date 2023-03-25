@@ -6,7 +6,6 @@
     {"id":{"name":"xwfu_struct_test_encode_string","path":"scripts/xwfu_struct_test_encode_string/xwfu_struct_test_encode_string.yy",},"order":3,},
     {"id":{"name":"__obj_download_master_daemon__","path":"objects/__obj_download_master_daemon__/__obj_download_master_daemon__.yy",},"order":9,},
     {"id":{"name":"reqm_test_body_helpers","path":"scripts/reqm_test_body_helpers/reqm_test_body_helpers.yy",},"order":2,},
-    {"id":{"name":"MultipartBuffer","path":"extensions/MultipartBuffer/MultipartBuffer.yy",},"order":3,},
     {"id":{"name":"RequestBody","path":"scripts/RequestBody/RequestBody.yy",},"order":0,},
     {"id":{"name":"GMAssert","path":"extensions/GMAssert/GMAssert.yy",},"order":0,},
     {"id":{"name":"reqm_test_all","path":"scripts/reqm_test_all/reqm_test_all.yy",},"order":0,},
