@@ -9,7 +9,9 @@ This library provides a set of extensions for easily encoding, decoding, and sen
 - GameMaker Studio 2022 / 2.3.7 or above
 - (optional) [JSON Struct](https://github.com/dicksonlaw583/JsonStruct) v1.1.0 or higher
 
-For GameMaker Studio 2.3.0 and 2.3.1, you can only use v1.0.x versions of this library, which always require JSON Struct.
+If you use GameMaker Studio 2.3.2 - 2.3.6, use [v1.2.2](https://github.com/dicksonlaw583/RequestMaster/releases/tag/v1.2.1).
+
+For GameMaker Studio 2.3.0 and 2.3.1, you can only use [v1.0.x](https://github.com/dicksonlaw583/RequestMaster/releases/tag/v1.0.0) versions of this library, which always require JSON Struct.
 
 ## Installation
 
