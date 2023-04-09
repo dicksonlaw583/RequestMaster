@@ -1,6 +1,6 @@
 ///@func multipart_test_encode_buffer()
 function multipart_test_encode_buffer() {
-	var expected, got, gotString, mpdb;
+	var expected, got, gotString, mpdb, bb;
 	
 	// Simple
 	expected = "------b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a\r\n" +
@@ -34,10 +34,12 @@ function multipart_test_encode_buffer() {
 		@'Content-Disposition: form-data; name="baz"' + "\r\n\r\n" +
 		"bazqux\r\n" +
 		"------b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a--\r\n";
+	///Feather disable GM1041
 	mpdb = new MultipartDataBuilder(new JsonStruct(
 		"foo", "foobar",
 		"baz", "bazqux"
 	));
+	///Feather enable GM1041
 	mpdb.boundary = "----b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a";
 	got = mpdb.getBuffer();
 	gotString = buffer_get_string(got);
@@ -70,7 +72,7 @@ function multipart_test_encode_buffer() {
 		"Content-Disposition: form-data; name=\"qux[1]\"\r\n\r\n" +
 		"hoo\r\n" +
 		"------b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a--\r\n";
-	var mpdb = new MultipartDataBuilder({
+	mpdb = new MultipartDataBuilder({
 		foo: {
 			bar: "BAR",
 			baz: "BAZ",
@@ -122,7 +124,8 @@ function multipart_test_encode_buffer() {
 		"Content-Disposition: form-data; name=\"qux[1]\"\r\n\r\n" +
 		"hoo\r\n" +
 		"------b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a--\r\n";
-	var mpdb = new MultipartDataBuilder(new JsonStruct(
+	///Feather disable GM1041
+	mpdb = new MultipartDataBuilder(new JsonStruct(
 		"foo", new JsonStruct(
 			"bar", "BAR",
 			"baz", "BAZ",
@@ -130,6 +133,7 @@ function multipart_test_encode_buffer() {
 		),
 		"qux", ["waa", "hoo"]
 	));
+	///Feather enable GM1041
 	mpdb.boundary = "----b8a1bca777d1cf07fbb4d6bf5066bd8469f1808a";
 	got = mpdb.getBuffer();
 	gotString = buffer_get_string(got);
@@ -155,7 +159,7 @@ function multipart_test_encode_buffer() {
 	buffer_delete(got);
 	
 	// Special request objects
-	var expected = "------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
+	expected = "------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
 		"Content-Disposition: form-data; name=\"foobar\"; filename=\"goodbyeworld.txt\"\r\n" +
 		"Content-Type: text/plain\r\n\r\n" +
 		"Goodbye World! Goodbye World!\r\n" +
@@ -190,8 +194,9 @@ function multipart_test_encode_buffer() {
 		"Content-Disposition: form-data; name=\"qux[1]\"\r\n\r\n" +
 		"hoo\r\n" +
 		"------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be--\r\n";
-	var bb = Buffer(buffer_text, "Goodbye World! Goodbye World!");
-	var mpdb = new MultipartDataBuilder({
+	bb = Buffer(buffer_text, "Goodbye World! Goodbye World!");
+	///Feather disable GM1063
+	mpdb = new MultipartDataBuilder({
 		foo: {
 			bar: "BAR",
 			baz: "BAZ",
@@ -202,6 +207,7 @@ function multipart_test_encode_buffer() {
 		hoo: new BufferFilePart("goodbyeworld2.txt", bb),
 		qux: ["waa", "hoo"]
 	});
+	///Feather enable GM1063
 	mpdb.boundary = "----c0a6329b1a8c7e2d8cc4b90919248fa416aff2be";
 	got = mpdb.getBuffer();
 	gotString = buffer_get_string(got);
@@ -244,7 +250,7 @@ function multipart_test_encode_buffer() {
 	buffer_delete(bb);
 	
 	// Special request objects 2 with JsonStruct
-	var expected = "------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
+	expected = "------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be\r\n" +
 		"Content-Disposition: form-data; name=\"foobar\"; filename=\"goodbyeworld.txt\"\r\n" +
 		"Content-Type: text/plain\r\n\r\n" +
 		"Goodbye World! Goodbye World!\r\n" +
@@ -279,18 +285,22 @@ function multipart_test_encode_buffer() {
 		"Content-Disposition: form-data; name=\"qux[1]\"\r\n\r\n" +
 		"hoo\r\n" +
 		"------c0a6329b1a8c7e2d8cc4b90919248fa416aff2be--\r\n";
-	var bb = Buffer(buffer_text, "Goodbye World! Goodbye World!");
-	var mpdb = new MultipartDataBuilder(new JsonStruct(
+	bb = Buffer(buffer_text, "Goodbye World! Goodbye World!");
+	///Feather disable GM1041
+	mpdb = new MultipartDataBuilder(new JsonStruct(
 		"foo", new JsonStruct(
 			"bar", "BAR",
 			"baz", "BAZ",
 			"qux", ["WAA!", "HOO?", new BufferPart(bb)]
 		),
 		"foobar", new StringFilePart("goodbyeworld.txt", "Goodbye World! Goodbye World!"),
+		///Feather disable GM1063
 		"goo", (os_browser == browser_not_a_browser && os_type != os_operagx) ? new FilePart(working_directory + "helloworlddata.txt") : new TextFilePart(working_directory + "helloworlddata.txt"),
+		///Feather enable GM1063
 		"hoo", new BufferFilePart("goodbyeworld2.txt", bb),
 		"qux", ["waa", "hoo"]
 	));
+	///Feather enable GM1041
 	mpdb.boundary = "----c0a6329b1a8c7e2d8cc4b90919248fa416aff2be";
 	got = mpdb.getBuffer();
 	gotString = buffer_get_string(got);
@@ -333,7 +343,7 @@ function multipart_test_encode_buffer() {
 	buffer_delete(bb);
 	
 	// TextFilePart: Default - Windows newlines
-	var mpdb = new MultipartDataBuilder({
+	mpdb = new MultipartDataBuilder({
 		foo: new TextFilePart(working_directory + "helloworlddata.txt")
 	});
 	mpdb.boundary = "====";
@@ -348,7 +358,7 @@ function multipart_test_encode_buffer() {
 	buffer_delete(got);
 	
 	// TextFilePart: Unix newlines
-	var mpdb = new MultipartDataBuilder({
+	mpdb = new MultipartDataBuilder({
 		foo: new TextFilePart(working_directory + "helloworlddata.txt", { newline: "\n" })
 	});
 	mpdb.boundary = "====";
@@ -363,7 +373,7 @@ function multipart_test_encode_buffer() {
 	buffer_delete(got);
 	
 	// TextFilePart: Trailing Unix newlines
-	var mpdb = new MultipartDataBuilder({
+	mpdb = new MultipartDataBuilder({
 		foo: new TextFilePart(working_directory + "helloworlddata.txt", { newline: "\n", trailingNewline: true })
 	});
 	mpdb.boundary = "====";

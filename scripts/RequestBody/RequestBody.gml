@@ -1,5 +1,14 @@
-function RequestBody(strc) constructor {
-	data = strc;
+///@func RequestBody(data)
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@ignore
+///@desc A generic Request Master request body.
+function RequestBody(data) constructor {
+	self.data = data;
+	
+	///@func addValue(k, v)
+	///@param {string} k The key to add.
+	///@param {Any} v The value to add.
+	///@desc Add the given key-value pair to this request body.
 	static addValue = function(k, v) {
 		switch (instanceof(data)) {
 			case "JsonStruct":
@@ -9,49 +18,104 @@ function RequestBody(strc) constructor {
 				variable_struct_set(data, k, v);
 		}
 	};
+	
+	///@func cleanBody()
+	///@desc Do the cleanup routines for the generated request body.
+	static cleanBody = function(body) {
+		
+	};
 }
 
-function JsonBody(strc) : RequestBody(strc) constructor {
+///@func JsonBody(data)
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@extends {RequestBody}
+///@desc An application/json request body encoded using JSON Structs.
+function JsonBody(data) : RequestBody(data) constructor {
+	///@func setHeader(map)
+	///@param {Id.DsMap} map 
+	///@desc Set headers applicable to this request body type in the given header map.
 	static setHeader = function(map) {
 		map[? "Content-Type"] = "application/json";
 	};
+	
+	///@func getBody()
+	///@return {String}
+	///@desc Get the request body's contents as a string.
 	static getBody = function() {
 		return jsons_encode(data);
 	};
-	static cleanBody = function(body) {};
 }
 
-function StructBody(strc) : RequestBody(strc) constructor {
+///@func StructBody(data)
+///@param {Struct} data The data of the request body.
+///@extends {RequestBody}
+///@desc An application/json request body encoded using json_stringify().
+function StructBody(data) : RequestBody(data) constructor {
+	///@func setHeader(map)
+	///@param {Id.DsMap} map 
+	///@desc Set headers applicable to this request body type in the given header map.
 	static setHeader = function(map) {
 		map[? "Content-Type"] = "application/json";
 	};
+	
+	///@func getBody()
+	///@return {String}
+	///@desc Get the request body's contents as a string.
 	static getBody = function() {
 		return json_stringify(data);
 	};
-	static cleanBody = function(body) {};
 }
 
-function XwfuBody(strc) : RequestBody(strc) constructor {
+///@class XwfuBody(data)
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@extends {RequestBody}
+///@desc An application/x-www-form-urlencoded request body.
+function XwfuBody(data) : RequestBody(data) constructor {
+	///@func setHeader(map)
+	///@param {Id.DsMap} map 
+	///@desc Set headers applicable to this request body type in the given header map.
 	static setHeader = function(map) {
 		map[? "Content-Type"] = "application/x-www-form-urlencoded";
 	};
+	
+	///@func getBody()
+	///@return {String}
+	///@desc Get the request body's contents as a string.
 	static getBody = function() {
 		return xwfu_encode(data);
 	};
-	static cleanBody = function(body) {};
 }
 
-function MultipartBody(strc) : RequestBody(strc) constructor {
-	mpdb = new MultipartDataBuilder(data);
+///@class MultipartBody(data)
+///@param {Struct,Struct.JsonStruct} data The data of the request body.
+///@extends {RequestBody}
+///@desc A multipart/form-data request body.
+function MultipartBody(data) : RequestBody(data) constructor {
+	self.mpdb = new MultipartDataBuilder(data);
+	
+	///@func setBoundary
+	///@param {String} boundary The boundary string to use.
+	///@desc Set this multipart/form-data request body's boundary string.
 	static setBoundary = function(boundary) {
 		mpdb.boundary = boundary;
 	};
+	
+	///@func setHeader(map)
+	///@param {Id.DsMap} map 
+	///@desc Set headers applicable to this request body type in the given header map.
 	static setHeader = function(map) {
 		mpdb.writeHeaderMap(map);
 	};
+	
+	///@func getBody()
+	///@return {Id.Buffer}
+	///@desc Get the request body's contents as a buffer.
 	static getBody = function() {
 		return mpdb.getBuffer();
 	};
+	
+	///@func cleanBody()
+	///@desc Do the cleanup routines for the generated body.
 	static cleanBody = function(body) {
 		buffer_delete(body);
 	};
