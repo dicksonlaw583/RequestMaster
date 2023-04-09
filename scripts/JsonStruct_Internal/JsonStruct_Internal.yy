@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "__JSONS_CONFIG__",
+  "name": "JsonStruct_Internal",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
     "name": "JsonStruct",
-    "path": "folders/Libraries_config/JsonStruct.yy",
+    "path": "folders/Libraries/JsonStruct.yy",
   },
 }

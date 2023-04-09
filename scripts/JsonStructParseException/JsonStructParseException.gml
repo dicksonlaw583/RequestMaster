@@ -1,9 +1,17 @@
-// Script assets have changed for v2.3.0 see
-// https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function JsonStructParseException(_pos, _description) constructor {
-	pos = _pos;
-	description = _description;
+///@class JsonStructParseException(pos, description)
+///@param {real} pos String position at which the failure occurred.
+///@param {string} description A description of the type of failure.
+///@desc Exception for when JSON Struct fails to parse a string.
+function JsonStructParseException(pos, description) constructor {
+	#region Constructor properties
+	self.pos = pos;
+	self.description = description;
+	#endregion
+	
+	///@func toString()
+	///@return {string}
+	///@desc Return a string message describing this exception.
 	static toString = function() {
-		return description + " at position " + string(pos)
+		return description + " at position " + string(pos);
 	};
 }
